@@ -7,15 +7,15 @@ import java.util.Optional;
 
 public interface UrlService {
     //CREATE
-    public boolean save(UrlDto v);
+    boolean save(UrlDto v);
 
     //READ
-    public boolean existsById(Long id);
-    public Optional<UrlDto> findById(Long id);
-    public List<UrlDto> findAll();
-    public Long count();
+    boolean existsById(Long id);
+    Optional<UrlDto> findById(Long id);
+    List<UrlDto> findAll();
+    Long count();
 
     //DELETE
-    public boolean deleteById(Long id);
-    public void deleteAll();
+    boolean deleteById(Long id);
+    void deleteAll();
 }
