@@ -17,42 +17,44 @@ public class UrlServiceImpl implements UrlService {
 
     @Override
     public boolean save(UrlDto v) {
+        if (existsById(v.getId())) {
+            return false;
+        }
         urlRepository.save(v);
         return true;
     }
 
     @Override
-    public boolean existsById() {
-        return false;
+    public boolean existsById(Long id) {
+        return urlRepository.existsById(id);
     }
 
     @Override
-    public Optional<UrlDto> findById() {
-        return Optional.empty();
+    public Optional<UrlDto> findById(Long id) {
+        return urlRepository.findById(id);
     }
 
     @Override
     public List<UrlDto> findAll() {
-        return List.of();
+        return urlRepository.findAll();
     }
 
     @Override
     public Long count() {
-        return 0l;
+        return urlRepository.count();
     }
 
     @Override
-    public boolean delete() {
-        return false;
-    }
-
-    @Override
-    public boolean deleteById() {
-        return false;
+    public boolean deleteById(Long id) {
+        if (!existsById(id)){
+            return false;
+        }
+        urlRepository.deleteById(id);
+        return true;
     }
 
     @Override
     public void deleteAll() {
-
+        urlRepository.deleteAll();
     }
 }

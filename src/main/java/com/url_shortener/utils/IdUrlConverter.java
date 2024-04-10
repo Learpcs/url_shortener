@@ -13,7 +13,7 @@ public class IdUrlConverter {
     }
 
     public static Long getId(char[] shortUrl) throws ConverterException {
-        Long id = 0L;
+        long id = 0L;
         for (int i = ConstantsClass.ID_SIZE - 1; i >= 0; --i) {
             id = id * 62 + Base62Converter.get(shortUrl[i]);
         }
