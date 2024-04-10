@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ShortenerController {
 
     @PostMapping("/api/v1/shorten")
-    public URLDTO Shorten(@RequestParam(value = "url") String url) {
-        return new URLDTO(url);
+    public URLDTO Shorten(@RequestParam(value="id") Long id, @RequestParam(value = "url") String url) {
+        return new URLDTO(id, url);
     }
 }
 

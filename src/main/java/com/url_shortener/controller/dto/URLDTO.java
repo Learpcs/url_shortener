@@ -1,5 +1,5 @@
 package com.url_shortener.controller.dto;
 
-public record URLDTO(String URL) {
+public record URLDTO(Long ID, String URL) {
 
 }

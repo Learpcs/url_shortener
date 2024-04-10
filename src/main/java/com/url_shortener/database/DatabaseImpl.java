@@ -1,21 +1,25 @@
 package com.url_shortener.database;
 
+import com.sun.source.tree.Tree;
 import com.url_shortener.exception.DatabaseException;
 import com.url_shortener.utils.FileHelper;
+import lombok.Getter;
+import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class DatabaseImpl implements Database, AutoCloseable {
-    Long[] ids;
-    String[] shorts, longs;
-    String fileName;
 
-    DatabaseImpl(String filename) throws DatabaseException {
-        fileName = filename;
+@Service
+@Getter
+public class DatabaseImpl implements AutoCloseable {
+    private HashMap<Long, String> IDToURL;
+    private HashMap<String, Long> URLToID;
+    static private final String fileName = "database.txt";
+
+    public DatabaseImpl() throws DatabaseException {
         FileHelper  reader;
         try {
             reader = new FileHelper(fileName);
@@ -29,12 +33,12 @@ public class DatabaseImpl implements Database, AutoCloseable {
         } catch(Exception e) {
             throw new DatabaseException("Size number is broken: " + e.getMessage());
         }
-        ids = new Long[n];
-        shorts = new String[n];
-        longs = new String[n];
+
+        IDToURL = new HashMap<>();
+        URLToID = new HashMap<>();
 
         for (int i = 0; i < n; ++i) {
-            Long id; String longURL, shortURL;
+            Long id; String nowURL;
             try {
                 id = reader.nextLong();
             }
@@ -43,122 +47,39 @@ public class DatabaseImpl implements Database, AutoCloseable {
             }
 
             try {
-                longURL = reader.nextToken();
+                nowURL = reader.nextToken();
             }
             catch (Exception e) {
-                throw new DatabaseException("longURL on line " + (i + 1) + " is broken: " + e.getMessage());
-            }
-
-            try {
-                shortURL = reader.nextToken();
-            }
-            catch (Exception e) {
-                throw new DatabaseException("shortURL on line " + (i + 1) + " is broken: " + e.getMessage());
-            }
-
-            for (int j = 0; j < i; ++j) {
-                if (ids[j].equals(id)) {
-                    throw new DatabaseException("id column contains duplicates, line " + (i + 1));
-                }
-                if (longs[j].equals(longURL)) {
-                    throw new DatabaseException("short column contains duplicates, line " + (i + 1));
-                }
-                if (shorts[j].equals(shortURL)) {
-                    throw new DatabaseException("short column contains duplicates, line " + (i + 1));
-                }
+                throw new DatabaseException("nowURL on line " + (i + 1) + " is broken: " + e.getMessage());
             }
 
 
-            ids[i] = id;
-            longs[i] = longURL;
-            shorts[i] = shortURL;
+            addToDatabase(id, nowURL);
         }
     }
 
-    @Override
-    public void createShortURL(Long id, String longURL, String shortURL) throws DatabaseException {
-        if (!ids.add(id)) {
-            throw new DatabaseException("id column contains duplicates, createShortUrl()");
-        }
-        if (!longs.add(longURL)) {
-            throw new DatabaseException("short column contains duplicates, createShortUrl()");
-        }
-        if(!shorts.add(shortURL)) {
-            throw new DatabaseException("short column contains duplicates, createShortUrl()");
-        }
+    public void addToDatabase(Long ID, String URL) throws DatabaseException {
+        if (IDToURL.put(ID, URL) != null)
+            throw new DatabaseException("ID already exists: " + ID + " " + URL);
+        if (URLToID.put(URL, ID) != null)
+            throw new DatabaseException("URL already exists: " + ID + " " + URL);
     }
 
-    @Override
-    public String getShortURLById(Long id) throws DatabaseException {
-        if (!ids.contains(id)) {
-            throw new DatabaseException("id doesn't exist, getShortURLById()");
-        }
-        return shortByID.get(id);
-    }
-
-    @Override
-    public String getLongURLById(Long id) throws DatabaseException {
-        if (!ids.contains(id)) {
-            throw new DatabaseException("id doesn't exist, getShortURLById()");
-        }
-        return longByID.get(id);
-    }
-
-    @Override
-    public String getShortURL(String longURL) throws DatabaseException {
-        if (!ids.contains(id)) {
-            throw new DatabaseException("id doesn't exist, getShortURLById()");
-        }
-        return longByID.get(id);
-    }
-
-    @Override
-    public String getLongURL(String shortURL) throws DatabaseException {
-        return "";
-    }
-
-    @Override
-    public Long[] getAllIDs() throws DatabaseException {
-        return new Long[0];
-    }
-
-    @Override
-    public String[] getAllLongUrls() throws DatabaseException {
-        return new String[0];
-    }
-
-    @Override
-    public String[] getAllShortUrls() throws DatabaseException {
-        return new String[0];
-    }
-
-    @Override
-    public String deleteById(Long id) throws DatabaseException {
-        return "";
-    }
-
-    @Override
-    public String[] getAllUrl() throws DatabaseException {
-        return new String[0];
-    }
-
-    @Override
-    public String deleteById(long id) throws DatabaseException {
-        return "";
-    }
-
-    @Override
-    public String deleteShortURL(String longURL) throws DatabaseException {
-        return "";
-    }
-
-    @Override
-    public String deleteLongURL(String shortURL) throws DatabaseException {
-        return "";
+    public void removeFromDatabase(Long ID, String URL) throws DatabaseException {
+        if (!IDToURL.remove(ID, URL))
+            throw new DatabaseException("ID does not exists: " + ID + " " + URL);
+        if (!URLToID.remove(URL, ID))
+            throw new DatabaseException("URL does not exists: " + ID + " " + URL);
     }
 
     @Override
     public void close() throws Exception {
-        PrintWriter printWriter = new PrintWriter("")
+        PrintWriter printWriter = new PrintWriter(fileName);
+        printWriter.println(IDToURL.size());
+
+        TreeMap<Long, String> sortedMap = new TreeMap<>(IDToURL);
+        for (Map.Entry<Long, String> x : sortedMap.entrySet()) {
+            printWriter.println(x.getKey() + " "  + x.getValue());
+        }
     }
 }
