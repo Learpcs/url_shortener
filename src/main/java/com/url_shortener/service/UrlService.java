@@ -10,13 +10,12 @@ public interface UrlService {
     public boolean save(UrlDto v);
 
     //READ
-    public boolean existsById();
-    public Optional<UrlDto> findById();
+    public boolean existsById(Long id);
+    public Optional<UrlDto> findById(Long id);
     public List<UrlDto> findAll();
     public Long count();
 
     //DELETE
-    public boolean delete();
-    public boolean deleteById();
+    public boolean deleteById(Long id);
     public void deleteAll();
 }

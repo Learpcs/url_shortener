@@ -2,7 +2,9 @@ package com.url_shortener.controller;
 
 import com.url_shortener.controller.dto.UrlDto;
 import com.url_shortener.exception.DatabaseException;
-import com.url_shortener.repository.UrlRepository;
+import com.url_shortener.exception.UrlValidationException;
+import com.url_shortener.service.UrlService;
+import com.url_shortener.utils.UrlValidityChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,22 +16,23 @@ import org.springframework.web.bind.annotation.*;
 public class UrlController {
 
     @Autowired
-    private UrlRepository urlRepository;
+    private UrlService urlService;
 
     @PostMapping("/save")
-    public HttpStatus save(@RequestBody UrlDto urlEntity) throws DatabaseException {
-        if (urlRepository.existsById(urlEntity.getId())) {
-            throw new DatabaseException("ID already exists");
+    public HttpStatus save(@RequestBody UrlDto urlEntity) throws DatabaseException, UrlValidationException {
+        UrlValidityChecker.validityCheck(urlEntity);
+        if (!urlService.save(urlEntity)) {
+            throw new DatabaseException("ID already exists (probably)");
         }
-        urlRepository.save(urlEntity);
         return HttpStatus.ACCEPTED;
     }
 
     @GetMapping("/get")
-    public HttpStatus get(@RequestBody UrlDto urlEntity) throws DatabaseException {
+    public HttpStatus get(@RequestBody UrlDto urlEntity) throws DatabaseException, UrlValidationException {
+        UrlValidityChecker.validityCheck(urlEntity);
+
         for (int tt = 0; tt < 100; ++tt) {
-            if (!urlRepository.existsById(urlEntity.getId())) {
-                urlRepository.save(urlEntity);
+            if (urlService.save(urlEntity)) {
                 return HttpStatus.ACCEPTED;
             }
         }
