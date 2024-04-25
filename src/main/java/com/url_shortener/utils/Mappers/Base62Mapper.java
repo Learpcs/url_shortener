@@ -1,8 +1,8 @@
-package com.url_shortener.utils;
+package com.url_shortener.utils.Mappers;
 
 import com.url_shortener.exception.ConverterException;
 
-public class Base62Converter {
+public class Base62Mapper {
     public static char get(int i) throws ConverterException{
         if (i < 26)
             return (char)(i + 'a');
