@@ -28,6 +28,10 @@ dependencies {
 	// https://mvnrepository.com/artifact/commons-validator/commons-validator
 	implementation("commons-validator:commons-validator:1.8.0")
 
+	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto
+	implementation("org.springframework.security:spring-security-crypto:6.2.4")
+
+
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
