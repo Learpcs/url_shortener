@@ -1,7 +1,9 @@
 package com.url_shortener.service;
 
 import com.url_shortener.controller.dto.UrlDto;
+import com.url_shortener.exception.DatabaseException;
 import com.url_shortener.repository.UrlRepository;
+import com.url_shortener.repository.dao.UrlDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,45 +18,25 @@ public class UrlServiceImpl implements UrlService {
 
 
     @Override
-    public boolean save(UrlDto v) {
-        if (existsById(v.getId())) {
+    public boolean create(UrlDao urlDao) {
+        if (findById(urlDao.getId()).orElse(null) != null) {
             return false;
         }
-        urlRepository.save(v);
+        urlRepository.save(urlDao);
         return true;
     }
 
     @Override
-    public boolean existsById(Long id) {
-        return urlRepository.existsById(id);
-    }
-
-    @Override
-    public Optional<UrlDto> findById(Long id) {
+    public Optional<UrlDao> findById(Long id) {
         return urlRepository.findById(id);
     }
 
     @Override
-    public List<UrlDto> findAll() {
-        return urlRepository.findAll();
-    }
-
-    @Override
-    public Long count() {
-        return urlRepository.count();
-    }
-
-    @Override
     public boolean deleteById(Long id) {
-        if (!existsById(id)){
+        if (findById(id).orElse(null) == null) {
             return false;
         }
         urlRepository.deleteById(id);
         return true;
-    }
-
-    @Override
-    public void deleteAll() {
-        urlRepository.deleteAll();
     }
 }
