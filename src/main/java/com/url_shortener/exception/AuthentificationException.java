@@ -4,8 +4,8 @@ import lombok.experimental.StandardException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+@ResponseStatus(HttpStatus.UNAUTHORIZED)
 @StandardException
-public class AuthentificationError extends Exception {
+public class AuthentificationException extends Exception {
 
 }
