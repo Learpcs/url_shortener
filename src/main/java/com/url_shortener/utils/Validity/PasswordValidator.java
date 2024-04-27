@@ -1,4 +1,4 @@
 package com.url_shortener.utils.Validity;
 
-public class ShortUrlValidityChecker {
+public class PasswordValidator {
 }
