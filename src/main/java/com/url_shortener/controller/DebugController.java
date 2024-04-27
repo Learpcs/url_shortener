@@ -6,10 +6,7 @@ import com.url_shortener.repository.UrlRepository;
 import com.url_shortener.repository.UserRepository;
 import com.url_shortener.utils.Mappers.IdUrlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/debug")
@@ -25,8 +22,8 @@ public class DebugController {
         System.out.println(userRepository.Authentificate(login,  password).orElseThrow(() -> new AuthentificationException("wrong credidentials")));
     }
 
-    @GetMapping("/redirect")
-    void redirect(@RequestParam String url) throws AuthentificationException, ConverterException {
+    @GetMapping("/{link}")
+    void redirect(@PathVariable("link") String url) throws AuthentificationException, ConverterException {
         System.out.println(urlRepository.findById(IdUrlMapper.getId(url)));
         System.out.println(urlRepository.findById(IdUrlMapper.getId(url)).get().getUrl());
     }
