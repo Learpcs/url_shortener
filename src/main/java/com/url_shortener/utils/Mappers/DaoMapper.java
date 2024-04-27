@@ -11,7 +11,6 @@ import com.url_shortener.utils.PasswordHasher;
 
 public class DaoMapper {
 
-    //TODO tokens
     public static UrlDao map(UrlDto urlDto, UserService userService) throws ConverterException {
         return new UrlDao(
                 IdUrlMapper.getId(urlDto.shortUrl())    ,

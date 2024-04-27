@@ -4,7 +4,7 @@ import com.url_shortener.controller.dto.UrlDto;
 import com.url_shortener.exception.UrlValidationException;
 
 public class UrlFixer {
-    public UrlDto fix(UrlDto urlDto) throws UrlValidationException {
+    public static UrlDto fix(UrlDto urlDto) throws UrlValidationException {
         urlDto = ProtocolFixer.fixUrl(urlDto);
         ShortUrlValidator.validate(urlDto.shortUrl());
         LongUrlValidator.validate(urlDto.url());

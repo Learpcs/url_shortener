@@ -1,10 +1,10 @@
-package com.url_shortener.service;
+package com.url_shortener.service.impl;
 
 import com.url_shortener.controller.dto.UserDto;
 import com.url_shortener.exception.AuthentificationException;
 import com.url_shortener.repository.UserRepository;
-import com.url_shortener.repository.dao.UrlDao;
 import com.url_shortener.repository.dao.UserDao;
+import com.url_shortener.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

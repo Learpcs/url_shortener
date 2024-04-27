@@ -1,26 +1,25 @@
 package com.url_shortener.repository.dao;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-//TODO non-wrapper types
-//FIXME varchar len
+import java.sql.Date;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-//@Table(name="user", indexes= {@Index(name = "idindex", columnList="id", unique = true), @Index(name = "urlindex", columnList="url")})
-public class UrlDao {
+public class SessionDao {
     @Id
     Long id;
 
-    @Column(nullable = false)
-    String url;
+    Date expirationDate;
 
     @ManyToOne(targetEntity = UserDao.class)
     UserDao ownerId;

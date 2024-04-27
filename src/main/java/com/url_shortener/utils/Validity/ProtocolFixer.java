@@ -9,6 +9,6 @@ public class ProtocolFixer {
         if (urlDto.url().contains("://"))
             return urlDto;
         else
-            return new UrlDto("https:// " + urlDto.shortUrl(), urlDto.shortUrl(), urlDto.creatorToken());
+            return new UrlDto("https:// " + urlDto.url(), urlDto.shortUrl(), urlDto.creatorToken());
     }
 }
