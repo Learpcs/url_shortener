@@ -1,8 +1,7 @@
 package com.url_shortener.service;
 
-import com.url_shortener.repository.dao.UrlDao;
+import com.url_shortener.repository.entity.UrlDao;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UrlService {

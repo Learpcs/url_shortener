@@ -1,6 +1,6 @@
 package com.url_shortener.repository;
 
-import com.url_shortener.repository.dao.UserDao;
+import com.url_shortener.repository.entity.UserDao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

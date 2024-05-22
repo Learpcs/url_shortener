@@ -1,6 +1,6 @@
 package com.url_shortener.controller;
 
-import com.url_shortener.controller.dto.UrlDto;
+import com.url_shortener.controller.request.UrlDto;
 import com.url_shortener.exception.ConverterException;
 import com.url_shortener.exception.DatabaseException;
 import com.url_shortener.exception.UrlValidationException;
@@ -8,7 +8,6 @@ import com.url_shortener.service.UrlService;
 import com.url_shortener.service.UserService;
 import com.url_shortener.utils.Mappers.DaoMapper;
 import com.url_shortener.utils.ShortUrlRandomizer;
-import com.url_shortener.utils.Validity.LongUrlValidator;
 import com.url_shortener.utils.Validity.UrlFixer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

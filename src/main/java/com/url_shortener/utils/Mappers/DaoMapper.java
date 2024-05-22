@@ -1,13 +1,12 @@
 package com.url_shortener.utils.Mappers;
 
-import com.url_shortener.controller.dto.UrlDto;
-import com.url_shortener.controller.dto.UserDto;
+import com.url_shortener.controller.request.UrlDto;
+import com.url_shortener.controller.request.UserDto;
 import com.url_shortener.exception.AuthentificationException;
 import com.url_shortener.exception.ConverterException;
-import com.url_shortener.repository.dao.UrlDao;
-import com.url_shortener.repository.dao.UserDao;
+import com.url_shortener.repository.entity.UrlDao;
+import com.url_shortener.repository.entity.UserDao;
 import com.url_shortener.service.UserService;
-import com.url_shortener.utils.PasswordHasher;
 
 public class DaoMapper {
 

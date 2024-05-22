@@ -1,9 +1,36 @@
 services:
-  postgres:
-    image: 'postgres:latest'
+  db:
+    image: postgres
     environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
     ports:
-      - '5432:5432'
+      - ${DB_PORT}:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      custom_net:
+        ipv4_address: ${DB_HOST}
+
+  liquibase:
+    image: liquibase/liquibase
+    volumes:
+      - ./db/changelog:/changelog
+    command: --changeLogFile=/changelog/changelog.yml --url=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME} --username=${DB_USER} --password=${DB_PASS} generateChangeLog
+    networks:
+      custom_net:
+        ipv4_address: ${LB_HOST}
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+
+networks:
+  custom_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${DB_SUBNET}
+          gateway: ${DB_GATEWAY}

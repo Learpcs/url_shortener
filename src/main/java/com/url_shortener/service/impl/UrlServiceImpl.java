@@ -1,7 +1,7 @@
 package com.url_shortener.service.impl;
 
 import com.url_shortener.repository.UrlRepository;
-import com.url_shortener.repository.dao.UrlDao;
+import com.url_shortener.repository.entity.UrlDao;
 import com.url_shortener.service.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

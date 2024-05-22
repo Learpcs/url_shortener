@@ -1,4 +1,4 @@
-package com.url_shortener.repository.dao;
+package com.url_shortener.repository.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

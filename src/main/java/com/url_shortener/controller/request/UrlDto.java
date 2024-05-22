@@ -1,6 +1,5 @@
-package com.url_shortener.controller.dto;
+package com.url_shortener.controller.request;
 
-//TODO byte data T_T
 public record UrlDto(String url, String shortUrl, String creatorToken) {
 
 }

@@ -22,16 +22,14 @@ repositories {
 }
 
 dependencies {
+//	implementation("org.liquibase:liquibase-core:4.27.0")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-
-	// https://mvnrepository.com/artifact/commons-validator/commons-validator
+//	implementation("org.springframework.boot:spring-boot-starter-security")
+//	implementation("org.keycloak:keycloak-spring-boot-starter:24.0.4")
 	implementation("commons-validator:commons-validator:1.8.0")
-
-	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto
 	implementation("org.springframework.security:spring-security-crypto:6.2.4")
-
-
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")

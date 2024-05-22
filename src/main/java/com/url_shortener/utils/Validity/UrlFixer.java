@@ -1,6 +1,6 @@
 package com.url_shortener.utils.Validity;
 
-import com.url_shortener.controller.dto.UrlDto;
+import com.url_shortener.controller.request.UrlDto;
 import com.url_shortener.exception.UrlValidationException;
 
 public class UrlFixer {

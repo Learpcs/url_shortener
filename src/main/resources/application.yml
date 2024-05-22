@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: url_shortener
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mydatabase
+    username: myuser
+    password: mypass
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/changelog-master.yaml
+  jpa:
+    #Debug
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+    hibernate:
+      ddl-auto: create-drop
+constants:
+  port: 8080
+  host: localhost
+  url: http://${host}:{port}
+
+  ID_SIZE: 5;
+  ID_LOWER_BOUND:  0;
+  ID_UPPER_BOUND: 916132832; #62 ** ID_SIZE
+  
+  URL_SIZE_LOWER_BOUND: 3
+  URL_SIZE_UPPER_BOUND: 2048
+  
+  LOGIN_SIZE_LOWER_BOUND: 1
+  LOGIN_SIZE_UPPER_BOUND: 36
+  
+  PASSWORD_SIZE_LOWER_BOUND: 8
+  PASSWORD_SIZE_UPPER_BOUND: 254
+
+  EMAIL_SIZE_LOWER_BOUND: 1
+  EMAIL_SIZE_UPPER_BOUND: 254

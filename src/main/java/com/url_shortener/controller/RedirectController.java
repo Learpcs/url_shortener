@@ -2,15 +2,12 @@ package com.url_shortener.controller;
 
 import com.url_shortener.exception.ConverterException;
 import com.url_shortener.exception.UrlNotFoundException;
-import com.url_shortener.repository.dao.UrlDao;
 import com.url_shortener.service.UrlService;
 import com.url_shortener.utils.Mappers.IdUrlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.Optional;
 
 @RestController
 public class RedirectController {
