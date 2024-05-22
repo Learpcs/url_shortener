@@ -1,0 +1,103 @@
+databaseChangeLog:
+- changeSet:
+    id: 1716420799034-1
+    author: liquibase (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: url_pkey
+            name: id
+            type: BIGINT
+        - column:
+            name: owner_id_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: url
+            type: VARCHAR(255)
+        tableName: url
+- changeSet:
+    id: 1716420799034-2
+    author: liquibase (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: url_dao_pkey
+            name: id
+            type: BIGINT
+        - column:
+            name: owner_id_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: url
+            type: VARCHAR(255)
+        tableName: url_dao
+- changeSet:
+    id: 1716420799034-3
+    author: liquibase (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: user_dao_pkey
+            name: id
+            type: BIGINT
+        - column:
+            name: urls_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: login
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: password
+            type: VARCHAR(255)
+        tableName: user_dao
+- changeSet:
+    id: 1716420799034-4
+    author: liquibase (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: owner_id_id
+        baseTableName: url_dao
+        constraintName: fkd6cfdsvwi0xfq9j4cfwa9vxa8
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: user_dao
+        validate: true
+- changeSet:
+    id: 1716420799034-5
+    author: liquibase (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: urls_id
+        baseTableName: user_dao
+        constraintName: fkjk07qvoyemq3ne35yjqc65i15
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: url_dao
+        validate: true
+
