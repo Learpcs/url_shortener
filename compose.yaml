@@ -16,8 +16,8 @@ services:
   liquibase:
     image: liquibase/liquibase
     volumes:
-      - ./db/changelog:/changelog
-    command: --changeLogFile=/changelog/changelog.yml --url=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME} --username=${DB_USER} --password=${DB_PASS} generateChangeLog
+      - ./src/main/resources/db/changelog:/changelog
+    command: --changeLogFile=/changelog/changelog.yml --url=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME} --username=${DB_USER} --password=${DB_PASS} ${LB_COMMAND}
     networks:
       custom_net:
         ipv4_address: ${LB_HOST}
@@ -32,5 +32,5 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: ${DB_SUBNET}
-          gateway: ${DB_GATEWAY}
+        - subnet: ${SUBNET}
+          gateway: ${GATEWAY}

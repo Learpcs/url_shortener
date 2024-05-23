@@ -7,18 +7,20 @@ import com.url_shortener.repository.UrlRepository;
 import com.url_shortener.repository.UserRepository;
 import com.url_shortener.utils.Mappers.IdUrlMapper;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/debug")
+@RequiredArgsConstructor
 public class DebugController {
-    @Autowired
-    UserRepository userRepository;
 
-    @Autowired
-    UrlRepository urlRepository;
+    private final UserRepository userRepository;
+    private final UrlRepository urlRepository;
+    private final AppConfig appConfig;
+    private final IdUrlMapper idUrlMapper;
 
     @GetMapping("/auth")
     void auth(@RequestParam String login, @RequestParam String password) throws AuthentificationException {
@@ -27,8 +29,8 @@ public class DebugController {
 
     @GetMapping("/{link}")
     void redirect(@PathVariable("link") String url) throws AuthentificationException, ConverterException {
-        System.out.println(urlRepository.findById(IdUrlMapper.getId(url)));
-        System.out.println(urlRepository.findById(IdUrlMapper.getId(url)).get().getUrl());
+        System.out.println(urlRepository.findById(idUrlMapper.getId(url)));
+        System.out.println(urlRepository.findById(idUrlMapper.getId(url)).get().getUrl());
     }
 
     @Operation(summary = "Get a greeting message")
@@ -39,6 +41,6 @@ public class DebugController {
 
     @GetMapping("/crap")
     public void crap() {
-        System.out.println(AppConfig.ID_SIZE);
+        System.out.println(appConfig.ID_SIZE);
     }
 }

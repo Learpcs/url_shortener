@@ -7,10 +7,15 @@ import com.url_shortener.exception.ConverterException;
 import com.url_shortener.repository.entity.UrlDao;
 import com.url_shortener.repository.entity.UserDao;
 import com.url_shortener.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
+@RequiredArgsConstructor
 public class DaoMapper {
+    final IdUrlMapper IdUrlMapper;
 
-    public static UrlDao map(UrlDto urlDto, UserService userService) throws ConverterException {
+    public UrlDao map(UrlDto urlDto, UserService userService) throws ConverterException {
         return new UrlDao(
                 IdUrlMapper.getId(urlDto.shortUrl())    ,
                 urlDto.url(),
@@ -18,7 +23,7 @@ public class DaoMapper {
         );
     }
 
-    public static UserDao map(UserDto userDto, UserService userService) throws AuthentificationException {
+    public UserDao map(UserDto userDto, UserService userService) throws AuthentificationException {
         return userService.Authentificate(userDto);
     }
 

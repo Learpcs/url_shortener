@@ -1,23 +1,26 @@
 package com.url_shortener.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@RequiredArgsConstructor
 public class AppConfig {
-    @Value("${ID_SIZE}") public static final Integer ID_SIZE = -1;
-    @Value("${ID_LOWER_BOUND}") public static final Integer ID_LOWER_BOUND = 0;
-    @Value("${ID_UPPER_BOUND}") public static final Integer ID_UPPER_BOUND = 916132832; //62 ** 5
+    @Value("${constants.ID_SIZE}") public Integer ID_SIZE;
+    @Value("${constants.ID_LOWER_BOUND}") public Integer ID_LOWER_BOUND;
+    @Value("${constants.ID_UPPER_BOUND}") public Integer ID_UPPER_BOUND;
 
-    @Value("${URL_SIZE_LOWER_BOUND}") public static final Integer URL_SIZE_LOWER_BOUND = 3;
-    @Value("${URL_SIZE_UPPER_BOUND}") public static final Integer URL_SIZE_UPPER_BOUND = 2048;
+    @Value("${constants.URL_SIZE_LOWER_BOUND}") public Integer URL_SIZE_LOWER_BOUND;
+    @Value("${constants.URL_SIZE_UPPER_BOUND}") public Integer URL_SIZE_UPPER_BOUND;
 
-    @Value("${LOGIN_SIZE_LOWER_BOUND}") public static final Integer LOGIN_SIZE_LOWER_BOUND = 1;
-    @Value("${LOGIN_SIZE_UPPER_BOUND}") public static final Integer LOGIN_SIZE_UPPER_BOUND = 36;
+    @Value("${constants.LOGIN_SIZE_LOWER_BOUND}") public Integer LOGIN_SIZE_LOWER_BOUND;
+    @Value("${constants.LOGIN_SIZE_UPPER_BOUND}") public Integer LOGIN_SIZE_UPPER_BOUND;
 
-    @Value("${PASSWORD_SIZE_LOWER_BOUND}") public static final Integer PASSWORD_SIZE_LOWER_BOUND = 8;
-    @Value("${PASSWORD_SIZE_UPPER_BOUND}") public static final Integer PASSWORD_SIZE_UPPER_BOUND = 254;
+    @Value("${constants.PASSWORD_SIZE_LOWER_BOUND}") public Integer PASSWORD_SIZE_LOWER_BOUND;
+    @Value("${constants.PASSWORD_SIZE_UPPER_BOUND}") public Integer PASSWORD_SIZE_UPPER_BOUND;
 
-    @Value("${EMAIL_SIZE_LOWER_BOUND}") public static final Integer EMAIL_SIZE_LOWER_BOUND = 1;
-    @Value("${EMAIL_SIZE_UPPER_BOUND}") public static final Integer EMAIL_SIZE_UPPER_BOUND = 254;
+    @Value("${constants.EMAIL_SIZE_LOWER_BOUND}") public Integer EMAIL_SIZE_LOWER_BOUND;
+    @Value("${constants.EMAIL_SIZE_UPPER_BOUND}") public Integer EMAIL_SIZE_UPPER_BOUND;
 }
