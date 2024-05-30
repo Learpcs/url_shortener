@@ -21,23 +21,28 @@ spring:
 
     hibernate:
       ddl-auto: create-drop
-constants:
-  port: 8080
-  host: localhost
-  url: http://${host}:{port}
 
-  ID_SIZE: 5
-  ID_LOWER_BOUND:  0
-  ID_UPPER_BOUND: 916132832 #62 ** ID_SIZE
-  
-  URL_SIZE_LOWER_BOUND: 3
-  URL_SIZE_UPPER_BOUND: 2048
-  
-  LOGIN_SIZE_LOWER_BOUND: 1
-  LOGIN_SIZE_UPPER_BOUND: 36
-  
-  PASSWORD_SIZE_LOWER_BOUND: 8
-  PASSWORD_SIZE_UPPER_BOUND: 254
+settings:
+  HostConfig:
+    PROTOCOL: http
+    HOST: localhost
+    PORT: 8080
 
-  EMAIL_SIZE_LOWER_BOUND: 1
-  EMAIL_SIZE_UPPER_BOUND: 254
+  ShortUrlConfig:
+    SIZE: 5
+
+  LongUrlConfig:
+    SIZE_LOWER_BOUND: 3
+    SIZE_UPPER_BOUND: 2048
+
+  LoginConfig:
+    SIZE_LOWER_BOUND: 1
+    SIZE_UPPER_BOUND: 36
+
+  PasswordConfig:
+    SIZE_LOWER_BOUND: 8
+    SIZE_UPPER_BOUND: 254
+
+  EmailConfig:
+    SIZE_LOWER_BOUND: 1
+    SIZE_UPPER_BOUND: 254

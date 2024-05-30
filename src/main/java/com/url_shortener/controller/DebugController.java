@@ -1,6 +1,6 @@
 package com.url_shortener.controller;
 
-import com.url_shortener.config.AppConfig;
+import com.url_shortener.config.ShortUrlConfig;
 import com.url_shortener.exception.AuthentificationException;
 import com.url_shortener.exception.ConverterException;
 import com.url_shortener.repository.UrlRepository;
@@ -8,7 +8,6 @@ import com.url_shortener.repository.UserRepository;
 import com.url_shortener.utils.Mappers.IdUrlMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +18,7 @@ public class DebugController {
 
     private final UserRepository userRepository;
     private final UrlRepository urlRepository;
-    private final AppConfig appConfig;
+    private final ShortUrlConfig shortUrlConfig;
     private final IdUrlMapper idUrlMapper;
 
     @GetMapping("/auth")
@@ -40,7 +39,9 @@ public class DebugController {
     }
 
     @GetMapping("/crap")
-    public void crap() {
-        System.out.println(appConfig.ID_SIZE);
+    public void crap()
+    {
+        System.out.println(shortUrlConfig.SIZE);
+        System.out.println(shortUrlConfig.SIZE_UPPER_BOUND);
     }
 }

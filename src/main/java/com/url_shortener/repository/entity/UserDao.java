@@ -17,13 +17,13 @@ import java.util.List;
 //@Table(name="url", indexes= {@Index(name = "idindex", columnList="id", unique = true), @Index(name = "urlindex", columnList="url")})
 public class UserDao {
     @Id
-    @Size(min = 0, message = "{validation.name.size.too_short}")
-    @Size(max = 916132832, message = "{validation.name.size.too_long}")
+//    @Size(min = 0, message = "{validation.name.size.too_short}")
+//    @Size(max = 916132832, message = "{validation.name.size.too_long}")
     Long id;
 
     @Column(nullable = false)
-    @Size(min = 3, message = "{validation.name.size.too_short}")
-    @Size(max = 200, message = "{validation.name.size.too_long}")
+//    @Size(min = 3, message = "{validation.name.size.too_short}")
+//    @Size(max = 200, message = "{validation.name.size.too_long}")
     String login, password;
 
     @ManyToOne(targetEntity = UrlDao.class)

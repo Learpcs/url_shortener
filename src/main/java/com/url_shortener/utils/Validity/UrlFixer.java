@@ -12,7 +12,7 @@ public class UrlFixer {
     private final LongUrlValidator longUrlValidator;
 
     public UrlDto fix(UrlDto urlDto) throws UrlValidationException {
-        urlDto = ProtocolFixer.fixUrl(urlDto);
+        urlDto = LongUrlProtocolFixer.fixUrl(urlDto);
         shortUrlValidator.validate(urlDto.shortUrl());
         longUrlValidator.validate(urlDto.url());
         return urlDto;
