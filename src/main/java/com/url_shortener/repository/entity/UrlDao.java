@@ -9,6 +9,8 @@ import lombok.Setter;
 //TODO non-wrapper types
 //FIXME varchar len
 
+// Entity лучше положить отдельно, не рядом с репозиториями
+
 @Entity
 @Getter
 @Setter

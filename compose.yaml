@@ -13,6 +13,8 @@ services:
       custom_net:
         ipv4_address: ${DB_HOST}
 
+  # Имедж liquibase поднимать необязательно, его можно просто подключить как зависимость к проекту и он при старте приложения накатит миграции
+  # https://contribute.liquibase.com/extensions-integrations/directory/integration-docs/springboot/using-springboot-with-gradle/
   liquibase:
     image: liquibase/liquibase
     volumes:

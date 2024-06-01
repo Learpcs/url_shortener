@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserDao, Long> {
 
+    // Лучше использвать именованные параметры в запросах, чтобы случайно не перепутать их порядок
     @Query("from UserDao where login=?1 and password=?2")
     Optional<UserDao> Authentificate(String username, String password);
 }
