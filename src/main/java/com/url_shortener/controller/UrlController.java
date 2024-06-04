@@ -29,7 +29,11 @@ public class UrlController {
 
     @PostMapping("/create")
     public HttpStatus create(@RequestBody UrlDto urlDto) throws DatabaseException, UrlValidationException, ConverterException {
+        // Этот код должен быть внутри UrlService.create() в мапперах не хорошо вызывать внешние сервисы
+        // Такой коммент в целом касается всех контроллеров, они не должны хранить сервисную логику
         urlDto = urlFixer.fix(urlDto);
+        // Особенно здесь, мы сразу в контроллере создаем сущность, которая потом передается в контроллер и он просто кладет ее в базу
+        // Создавать сущность должен сам сервис по своим правилам, чтобы потом эту логику можно было допустим вызвать в другом контроллере или сервисе
         if (!urlService.create(daoMapper.map(urlDto, userService))) {
             throw new DatabaseException("ID already exists (probably)");
         }
@@ -38,6 +42,10 @@ public class UrlController {
 
     @GetMapping("/get")
     public HttpStatus get(@RequestBody UrlDto urlDto) throws DatabaseException, UrlValidationException, ConverterException {
+        // 1. Код ниже должен быть также в сервисе
+        // 2. Метод get должен только проверять наличие URL, а не лениво его создавать, так как это нарушает принципы REST сервисов,
+        //    что метод GET не изменяет состояние запрашиваемого объекта.
+        //    Пользователь обычно не ожидает, что вызывая метод GET он что-то создаст
         urlDto = urlFixer.fix(urlDto);
 
         for (int tt = 0; tt < 100; ++tt) {

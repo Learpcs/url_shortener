@@ -26,6 +26,7 @@ public class UserDao {
 //    @Size(max = 200, message = "{validation.name.size.too_long}")
     String login, password;
 
+    // В таком случае здесь должен быть One to many
     @ManyToOne(targetEntity = UrlDao.class)
     List<UrlDao> urls;
 }
