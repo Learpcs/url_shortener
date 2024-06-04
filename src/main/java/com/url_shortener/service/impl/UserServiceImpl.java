@@ -8,10 +8,14 @@ import com.url_shortener.repository.UserRepository;
 import com.url_shortener.entity.UserDao;
 import com.url_shortener.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,7 +28,7 @@ public class UserServiceImpl implements UserService {
         if (existsByUsername(userDto.login())) {
             throw new ResourceExistsException("Username is already occupied");
         }
-        userRepository.save(new UserDao(0L, userDto.login(), userDto.password(), new ArrayList<UrlDao>()));
+        userRepository.save(new UserDao(0L, userDto.login(), userDto.password(), "ADMIN", new ArrayList<UrlDao>()));
     }
 
     @Override
@@ -52,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean existsByUsername(String username) {
-        return userRepository.existByUsername(username);
+        return userRepository.findByUsername(username).isPresent();
     }
 
     @Override

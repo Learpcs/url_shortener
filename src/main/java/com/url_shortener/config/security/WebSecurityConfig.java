@@ -1,53 +1,31 @@
-package com.url_shortener.config;
+package com.url_shortener.config.security;
 
-import org.keycloak.adapters.springsecurity.authentication.KeycloakLogoutHandler;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
-import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
-import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
-import org.springframework.stereotype.Component;
-
-import java.net.URI;
-import java.util.*;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(
-        securedEnabled = true,
-        jsr250Enabled = true
-)
+@RequiredArgsConstructor
 public class WebSecurityConfig {
-
+    private final UserDetailsService userDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -64,11 +42,12 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
+                .userDetailsService(userDetailsService)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(new RegexRequestMatcher("/[a-zA-Z0-9]{5}", null)).permitAll()
                         .requestMatchers("/home").permitAll()
                         .requestMatchers("/private").authenticated()
-                        .requestMatchers("/admintest").hasRole("admin")
+                        .requestMatchers("/admintest").hasRole("ADMIN")
                         .requestMatchers("/swagger-ui/*").permitAll()
                         .anyRequest().permitAll()
                 )
@@ -86,7 +65,7 @@ public class WebSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return NoOpPasswordEncoder.getInstance();
     }
 
     @Bean
@@ -105,40 +84,13 @@ public class WebSecurityConfig {
                         .roles("user", "admin")
                         .build();
 
+
         return new InMemoryUserDetailsManager(user, admin);
     }
 
 //    @Bean
-//    @SuppressWarnings("unchecked")
-//    public GrantedAuthoritiesMapper userAuthoritiesMapper() {
-//
-//        return (authorities) -> {
-//            Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
-//            authorities.forEach(authority -> {
-//                if (authority instanceof OidcUserAuthority oidcUserAuthority) {
-//                    OidcUserInfo userInfo = oidcUserAuthority.getUserInfo();
-//                    Map<String, Object> realmAccess = userInfo.getClaim("realm_access");
-//                    Collection<String> realmRoles;
-//                    if (realmAccess != null
-//                            && (realmRoles = (Collection<String>) realmAccess.get("roles")) != null) {
-//                        realmRoles
-//                                .forEach(role -> mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role)));
-//                    }
-//                }
-//            });
-//            return mappedAuthorities;
-//        };
-//    }
-//
-//    @Bean
-//    OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler(ClientRegistrationRepository clientRegistrationRepository) {
-//        OidcClientInitiatedLogoutSuccessHandler successHandler = new OidcClientInitiatedLogoutSuccessHandler(clientRegistrationRepository);
-//        successHandler.setPostLogoutRedirectUri(URI.create("http://localhost:8888").toString());
-//        return successHandler;
-//    }
-//
-//    @Bean
-//    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-//        return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
+//    public AuthenticationManager configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+//        return auth.build();
 //    }
 }

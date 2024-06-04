@@ -12,7 +12,11 @@ import com.url_shortener.service.UrlService;
 import com.url_shortener.utils.Mappers.IdUrlMapper;
 import com.url_shortener.utils.ShortUrlRandomizer;
 import lombok.RequiredArgsConstructor;
+import org.bouncycastle.oer.its.etsi102941.Url;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Optional;
 
@@ -29,6 +33,7 @@ public class UrlServiceImpl implements UrlService {
         for (int t = 0; t < 100; ++t) {
             Long id = shortUrlRandomizer.randomId();
             if (findById(id).isEmpty()) {
+                UrlDao urlDao = new UrlDao();
                 urlRepository.save(new UrlDao(id, randomUrlDto.url(), 0L)); //FIXME OWNERID
                 return idUrlMapper.getShortUrl(id);
             }
@@ -51,8 +56,20 @@ public class UrlServiceImpl implements UrlService {
         return urlRepository.findById(id);
     }
 
+    @Autowired
+    private RedisTemplate<String, UrlDao> redisTemplate;
+
     public Optional<UrlDao> findByShortUrl(String shortUrl) throws ConverterException {
-        return findById(idUrlMapper.getId(shortUrl));
+        ValueOperations<String, UrlDao> ops = redisTemplate.opsForValue();
+        UrlDao cachedUrl = ops.get(shortUrl);
+
+        if (cachedUrl != null) {
+            return Optional.of(cachedUrl);
+        } else {
+            UrlDao urlDao = findById(idUrlMapper.getId(shortUrl)).get();
+            ops.set(shortUrl, urlDao);
+            return Optional.of(urlDao);
+        }
     }
 
     @Override

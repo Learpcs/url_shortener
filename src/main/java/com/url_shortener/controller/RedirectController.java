@@ -20,25 +20,23 @@ public class RedirectController {
     @GetMapping("/api/v1/redirect")
     public RedirectView redirect_requestparams(@RequestParam String url) throws ConverterException, UrlNotFoundException {
         return new RedirectView(
-                urlService.findById(idUrlMapper.getId(url)).orElseThrow(() -> new UrlNotFoundException("Short url doesn't exist")).getUrl()
+                urlService.findByShortUrl(url).orElseThrow(() -> new UrlNotFoundException("Short url doesn't exist")).getUrl()
         );
     }
 
-    //Mozhno li vinesti nastroyku annotaciy v runtime?
     @GetMapping("/{link:^[a-zA-Z0-9]{5}$}")
     public RedirectView redirect(@PathVariable("link") String url) throws ConverterException, UrlNotFoundException {
-        System.out.println(url);
         RedirectView rv = new RedirectView(
-                urlService.findById(idUrlMapper.getId(url)).orElseThrow(() -> new UrlNotFoundException("Short url doesn't exist")).getUrl()
+                urlService.findByShortUrl(url).orElseThrow(() -> new UrlNotFoundException("Short url doesn't exist")).getUrl()
         );
-        rv.setStatusCode(HttpStatus.PERMANENT_REDIRECT);
+        rv.setStatusCode(HttpStatus.TEMPORARY_REDIRECT);
         return rv;
     }
 
     @GetMapping("/")
     public RedirectView homepage() throws ConverterException, UrlNotFoundException {
         RedirectView rv = new RedirectView(hostConfig.HOST_URL + "/swagger-ui.html");
-        rv.setStatusCode(HttpStatus.PERMANENT_REDIRECT);
+        rv.setStatusCode(HttpStatus.TEMPORARY_REDIRECT);
         return rv;
     }
 }

@@ -6,7 +6,7 @@ import com.url_shortener.exception.ConverterException;
 import com.url_shortener.repository.UrlRepository;
 import com.url_shortener.repository.UserRepository;
 import com.url_shortener.utils.Mappers.IdUrlMapper;
-import io.swagger.v3.oas.annotations.Operation;
+//import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,7 +39,7 @@ public class DebugController {
         System.out.println(urlRepository.findById(idUrlMapper.getId(url)).get().getUrl());
     }
 
-    @Operation(summary = "Get a greeting message")
+//    @Operation(summary = "Get a greeting message")
     @GetMapping("/hello1")
     public ResponseEntity<String> getGreeting() {
 
@@ -55,7 +55,7 @@ public class DebugController {
     }
 
     @GetMapping("/hello")
-    public String hello()
+    public String authorities()
     {
         Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)    SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 

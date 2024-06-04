@@ -1,4 +1,4 @@
-package com.url_shortener.config;
+package com.url_shortener.config.openapi;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

@@ -9,9 +9,10 @@ services:
       - ${DB_PORT}:5432
     volumes:
       - db_data:/var/lib/postgresql/data
-    networks:
-      custom_net:
-        ipv4_address: ${DB_HOST}
+
+#    networks:
+#      custom_net:
+#        ipv4_address: ${DB_HOST}
 
   # Имедж liquibase поднимать необязательно, его можно просто подключить как зависимость к проекту и он при старте приложения накатит миграции
   # https://contribute.liquibase.com/extensions-integrations/directory/integration-docs/springboot/using-springboot-with-gradle/
@@ -58,15 +59,19 @@ services:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: password
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
 
 volumes:
   db_data:
   keycloak_data:
 
-networks:
-  custom_net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: ${SUBNET}
-          gateway: ${GATEWAY}
+#networks:
+#  custom_net:
+#    driver: bridge
+#    ipam:
+#      config:
+#        - subnet: ${SUBNET}
+#          gateway: ${GATEWAY}

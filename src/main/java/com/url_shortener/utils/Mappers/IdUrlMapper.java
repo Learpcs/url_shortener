@@ -12,7 +12,7 @@ public class IdUrlMapper {
 
     public String getShortUrl(Long id) throws ConverterException {
         char[] result = new char[shortUrlConfig.SIZE];
-        for (int i = 0; i < shortUrlConfig.SIZE; ++i) {
+        for (int i = shortUrlConfig.SIZE - 1; i >= 0; --i) {
             result[i] = Base62Mapper.get((int)(id % 62));
             id /= 62;
         }
