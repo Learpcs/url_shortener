@@ -1,13 +1,16 @@
 package com.url_shortener.service.impl;
 
-import com.url_shortener.controller.request.UserDto;
+import com.url_shortener.controller.Dto.UserDto;
+import com.url_shortener.entity.UrlDao;
 import com.url_shortener.exception.AuthentificationException;
+import com.url_shortener.exception.ResourceExistsException;
 import com.url_shortener.repository.UserRepository;
 import com.url_shortener.entity.UserDao;
 import com.url_shortener.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -17,12 +20,11 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public boolean create(UserDao userDao) {
-        if (findById(userDao.getId()).orElse(null) != null) {
-            return false;
+    public void create(UserDto userDto) throws ResourceExistsException, AuthentificationException {
+        if (existsByUsername(userDto.login())) {
+            throw new ResourceExistsException("Username is already occupied");
         }
-        userRepository.save(userDao);
-        return true;
+        userRepository.save(new UserDao(0L, userDto.login(), userDto.password(), new ArrayList<UrlDao>()));
     }
 
     @Override
@@ -31,16 +33,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteById(Long id) {
-        if (findById(id).orElse(null) == null) {
-            return false;
-        }
-        userRepository.deleteById(id);
-        return true;
+    public Optional<UserDao> find(UserDao userDao) {
+        return userRepository.findById(userDao.getId());
     }
 
     @Override
-    public UserDao Authentificate(UserDto userDto) throws AuthentificationException {
-        return userRepository.Authentificate(userDto.login(), userDto.password()).orElseThrow(() -> new AuthentificationException("Invalid credentials"));
+    public void deleteById(Long id) throws ResourceExistsException {
+        if (findById(id).isEmpty()) {
+            throw new ResourceExistsException("User id doesn't exists");
+        }
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public void delete(UserDao userDao) throws ResourceExistsException {
+        deleteById(userDao.getId());
+    }
+
+    @Override
+    public Boolean existsByUsername(String username) {
+        return userRepository.existByUsername(username);
+    }
+
+    @Override
+    public Optional<UserDao> auth(UserDto userDto) throws AuthentificationException {
+        return userRepository.auth(userDto.login(), userDto.password());
     }
 }

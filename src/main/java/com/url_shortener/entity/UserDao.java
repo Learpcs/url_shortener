@@ -16,12 +16,12 @@ import java.util.List;
 //@Table(name="url", indexes= {@Index(name = "idindex", columnList="id", unique = true), @Index(name = "urlindex", columnList="url")})
 public class UserDao {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Column(nullable = false)
-    String login, password;
+    String username, password;
 
-    // В таком случае здесь должен быть One to many
-    @ManyToOne(targetEntity = UrlDao.class)
+    @OneToMany
     List<UrlDao> urls;
 }

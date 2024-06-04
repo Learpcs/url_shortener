@@ -1,11 +1,23 @@
 package com.url_shortener.service;
 
+import com.url_shortener.controller.Dto.PickedUrlDto;
+import com.url_shortener.controller.Dto.RandomUrlDto;
 import com.url_shortener.entity.UrlDao;
+import com.url_shortener.exception.ConverterException;
+import com.url_shortener.exception.DatabaseException;
+import com.url_shortener.exception.ResourceExistsException;
+import com.url_shortener.exception.ResourceNotFoundException;
 
 import java.util.Optional;
 
 public interface UrlService {
-    boolean create(UrlDao urlDao);
+
+    void delete(UrlDao urlDao) throws ResourceNotFoundException;
+    void deleteById(Long id) throws ResourceNotFoundException;
+
+    Optional<UrlDao> findByShortUrl(String shortUrl) throws ConverterException;
     Optional<UrlDao> findById(Long id);
-    boolean deleteById(Long id);
+
+    String create(RandomUrlDto randomUrlDto) throws DatabaseException, ConverterException;
+    void create(PickedUrlDto pickedUrlDto) throws DatabaseException, ConverterException, ResourceExistsException;
 }

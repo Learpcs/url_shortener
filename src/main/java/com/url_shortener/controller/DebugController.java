@@ -26,9 +26,11 @@ public class DebugController {
     private final ShortUrlConfig shortUrlConfig;
     private final IdUrlMapper idUrlMapper;
 
+
+
     @GetMapping("/auth")
     void auth(@RequestParam String login, @RequestParam String password) throws AuthentificationException {
-        System.out.println(userRepository.Authentificate(login,  password).orElseThrow(() -> new AuthentificationException("wrong credidentials")));
+        System.out.println(userRepository.auth(login,  password).orElseThrow(() -> new AuthentificationException("wrong credidentials")));
     }
 
     @GetMapping("/{link}")

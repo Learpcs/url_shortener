@@ -14,7 +14,11 @@ public class ShortUrlRandomizer {
     private final ShortUrlConfig shortUrlConfig;
     private final IdUrlMapper idUrlMapper;
 
-    public String randomize() throws ConverterException {
+    public String randomShortUrl() throws ConverterException {
         return idUrlMapper.getShortUrl(new Random().nextLong(shortUrlConfig.SIZE_UPPER_BOUND));
+    }
+
+    public Long randomId() {
+        return new Random().nextLong(shortUrlConfig.SIZE_UPPER_BOUND);
     }
 }

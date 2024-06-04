@@ -62,13 +62,20 @@ public class WebSecurityConfig {
 //                )
 //                .logout(LogoutConfigurer::permitAll);
         http
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(new RegexRequestMatcher("/[a-zA-Z0-9]{5}", null)).permitAll()
                         .requestMatchers("/home").permitAll()
                         .requestMatchers("/private").authenticated()
                         .requestMatchers("/admintest").hasRole("admin")
-                        .anyRequest().authenticated()
+                        .requestMatchers("/swagger-ui/*").permitAll()
+                        .anyRequest().permitAll()
                 )
+//                .formLogin((form) -> form
+//                        .loginPage("/signin")
+//                        .permitAll()
+//                )
                 .exceptionHandling(authorise -> authorise.accessDeniedPage("/access-denied"))
                 .logout(LogoutConfigurer::permitAll)
                 .formLogin(withDefaults());
@@ -82,24 +89,24 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.builder()
-//                        .username("user")
-//                        .password(passwordEncoder().encode("user"))
-//                        .roles("user")
-//                        .build();
-//
-//        UserDetails admin =
-//                User.builder()
-//                        .username("admin")
-//                        .password(passwordEncoder().encode("admin"))
-//                        .roles("user", "admin")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user, admin);
-//    }
+    @Bean
+    public UserDetailsService userDetailsService() {
+        UserDetails user =
+                User.builder()
+                        .username("user")
+                        .password(passwordEncoder().encode("user"))
+                        .roles("user")
+                        .build();
+
+        UserDetails admin =
+                User.builder()
+                        .username("admin")
+                        .password(passwordEncoder().encode("admin"))
+                        .roles("user", "admin")
+                        .build();
+
+        return new InMemoryUserDetailsManager(user, admin);
+    }
 
 //    @Bean
 //    @SuppressWarnings("unchecked")
