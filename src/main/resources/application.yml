@@ -5,6 +5,20 @@ logging:
 spring:
   application:
     name: url_shortener
+  security:
+    oauth2:
+      client:
+        registration:
+          my-oauth2-client:
+            provider: keycloak
+            client-id: url_shortener
+            client-secret: tYhss3CmeFqDuoR76croI19LJ4HgUmBT
+            authorization-grant-type: authorization_code
+            scope: openid, profile
+#            redirect-uri: http://localhost:8888/home
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/url_shortener
   datasource:
     url: jdbc:postgresql://localhost:5432/mydatabase
     username: myuser
@@ -21,13 +35,20 @@ spring:
         format_sql: true
 
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
+
+server:
+  port:
+    8888
+#TODO
+#  ssl:
+#    enabled: true
 
 settings:
   HostConfig:
     PROTOCOL: http
-    HOST: localhost
-    PORT: 8080
+    HOST: 192.168.0.105
+
 
   ShortUrlConfig:
     SIZE: 5

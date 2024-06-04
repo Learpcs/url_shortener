@@ -1,6 +1,6 @@
 package com.url_shortener.utils;
 
-import com.url_shortener.config.ShortUrlConfig;
+import com.url_shortener.config.app.ShortUrlConfig;
 import com.url_shortener.exception.ConverterException;
 import com.url_shortener.utils.Mappers.IdUrlMapper;
 import lombok.RequiredArgsConstructor;

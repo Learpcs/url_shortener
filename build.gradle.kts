@@ -23,16 +23,24 @@ repositories {
 
 dependencies {
 //	implementation("org.liquibase:liquibase-core:4.27.0")
+	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+	implementation("io.jsonwebtoken:jjwt:0.12.5")
+	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-jose
+	implementation("org.springframework.security:spring-security-oauth2-jose:6.3.0")
+	implementation("org.keycloak:keycloak-spring-boot-starter:24.0.4")
+	implementation("org.springframework.security:spring-security-oauth2-client:6.3.0")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-//	implementation("org.springframework.boot:spring-boot-starter-security")
-//	implementation("org.keycloak:keycloak-spring-boot-starter:24.0.4")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	//  Temporary explicit version to fix Thymeleaf bug
+	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE")
+	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("commons-validator:commons-validator:1.8.0")
 	implementation("org.springframework.security:spring-security-crypto:6.2.4")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
-	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+//	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

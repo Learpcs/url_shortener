@@ -1,12 +1,11 @@
 package com.url_shortener.controller;
 
-import com.url_shortener.config.HostConfig;
+import com.url_shortener.config.app.HostConfig;
 import com.url_shortener.exception.ConverterException;
 import com.url_shortener.exception.UrlNotFoundException;
 import com.url_shortener.service.UrlService;
 import com.url_shortener.utils.Mappers.IdUrlMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -25,8 +24,10 @@ public class RedirectController {
         );
     }
 
-    @GetMapping("/{link}")
+    //Mozhno li vinesti nastroyku annotaciy v runtime?
+    @GetMapping("/{link:^[a-zA-Z0-9]{5}$}")
     public RedirectView redirect(@PathVariable("link") String url) throws ConverterException, UrlNotFoundException {
+        System.out.println(url);
         RedirectView rv = new RedirectView(
                 urlService.findById(idUrlMapper.getId(url)).orElseThrow(() -> new UrlNotFoundException("Short url doesn't exist")).getUrl()
         );

@@ -2,7 +2,7 @@ package com.url_shortener.service;
 
 import com.url_shortener.controller.request.UserDto;
 import com.url_shortener.exception.AuthentificationException;
-import com.url_shortener.repository.entity.UserDao;
+import com.url_shortener.entity.UserDao;
 
 import java.util.Optional;
 

@@ -1,6 +1,6 @@
 package com.url_shortener.utils.Validity;
 
-import com.url_shortener.config.ShortUrlConfig;
+import com.url_shortener.config.app.ShortUrlConfig;
 import com.url_shortener.exception.UrlValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

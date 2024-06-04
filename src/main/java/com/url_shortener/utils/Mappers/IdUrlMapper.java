@@ -1,6 +1,6 @@
 package com.url_shortener.utils.Mappers;
 
-import com.url_shortener.config.ShortUrlConfig;
+import com.url_shortener.config.app.ShortUrlConfig;
 import com.url_shortener.exception.ConverterException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

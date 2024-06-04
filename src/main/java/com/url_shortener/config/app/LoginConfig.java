@@ -1,4 +1,4 @@
-package com.url_shortener.config;
+package com.url_shortener.config.app;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

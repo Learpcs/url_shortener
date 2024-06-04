@@ -1,6 +1,6 @@
 package com.url_shortener.utils.Validity;
 
-import com.url_shortener.config.LongUrlConfig;
+import com.url_shortener.config.app.LongUrlConfig;
 import com.url_shortener.exception.UrlValidationException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.validator.routines.UrlValidator;
