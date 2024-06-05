@@ -2,6 +2,7 @@ package com.url_shortener.controller;
 
 import com.url_shortener.config.app.ShortUrlConfig;
 import com.url_shortener.config.security.CustomUser;
+import com.url_shortener.entity.UrlDao;
 import com.url_shortener.exception.AuthentificationException;
 import com.url_shortener.exception.ConverterException;
 import com.url_shortener.repository.UrlRepository;
@@ -11,11 +12,10 @@ import com.url_shortener.utils.Mappers.IdUrlMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/debug")
@@ -37,7 +37,7 @@ public class DebugController {
     @GetMapping("/{link}")
     void redirect(@PathVariable("link") String url) throws AuthentificationException, ConverterException {
         System.out.println(urlRepository.findById(idUrlMapper.getId(url)));
-        System.out.println(urlRepository.findById(idUrlMapper.getId(url)).get().getUrl());
+        System.out.println(urlRepository.findById(idUrlMapper.getId(url)).get().getLongUrl());
     }
 
 //    @Operation(summary = "Get a greeting message")
@@ -75,6 +75,11 @@ public class DebugController {
     @GetMapping("/sessionId")
     public Long sessionId() {
         return ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserID();
+    }
+
+    @GetMapping("/getAllLinks")
+    public List<UrlDao> getAllLinks() {
+        return urlRepository.findAll();
     }
 
     @GetMapping("/crap")

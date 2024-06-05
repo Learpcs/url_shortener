@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<UserDao> find(UserDao userDao) {
-        return userRepository.findById(userDao.getId());
+        return userRepository.findById(userDao.getUserId());
     }
 
     @Override
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(UserDao userDao) throws ResourceExistsException {
-        deleteById(userDao.getId());
+        deleteById(userDao.getUserId());
     }
 
     @Override
@@ -77,10 +77,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<UserDao> auth(UserDto userDto) throws AuthentificationException {
         return userRepository.auth(userDto.login(), userDto.password());
-    }
-
-    @Override
-    public List<UrlDao> getAllLinks() {
-        return userRepository.getReferenceById(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserID()).getUrls();
     }
 }

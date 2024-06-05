@@ -25,6 +25,4 @@ public interface UserService {
 
     Boolean existsByUsername(String username);
     Optional<UserDao> auth(UserDto userDto) throws AuthentificationException;
-
-    List<UrlDao> getAllLinks();
 }

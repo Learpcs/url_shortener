@@ -13,24 +13,27 @@ import com.url_shortener.service.UrlService;
 import com.url_shortener.utils.Mappers.IdUrlMapper;
 import com.url_shortener.utils.ShortUrlRandomizer;
 import lombok.RequiredArgsConstructor;
-import org.bouncycastle.oer.its.etsi102941.Url;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UrlServiceImpl implements UrlService {
 
     private final UrlRepository urlRepository;
     private final IdUrlMapper idUrlMapper;
     private final ShortUrlRandomizer shortUrlRandomizer;
-    
+
     @Override
     public String create(RandomUrlDto randomUrlDto) throws DatabaseException, ConverterException {
         for (int t = 0; t < 100; ++t) {
@@ -61,7 +64,12 @@ public class UrlServiceImpl implements UrlService {
 
     @Override
     public List<UrlDao> getAllLinks() {
-        return urlRepository.findAll();
+        return urlRepository.findByUserId((((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserID()));
+    }
+
+    @Override
+    public void deleteUrlsOlderThanXMinutes(Long X) {
+        urlRepository.deleteUrlsOlderThanXMinutes(X);
     }
 
 
@@ -70,25 +78,22 @@ public class UrlServiceImpl implements UrlService {
         return urlRepository.findById(id);
     }
 
-    @Autowired
-    private RedisTemplate<String, UrlDao> redisTemplate;
 
+
+    @Override
+    @Cacheable(cacheNames = "url")
     public UrlDao findByShortUrl(String shortUrl) throws ConverterException, ResourceNotFoundException {
-        ValueOperations<String, UrlDao> ops = redisTemplate.opsForValue();
-        UrlDao cachedUrl = ops.get(shortUrl);
+        Long id = idUrlMapper.getId(shortUrl);
+        UrlDao urlDao = findById(id).orElseThrow(() -> new ResourceNotFoundException("Url not found"));
+        urlRepository.updateUrlAccess(id);
+        log.debug("!!!!!!!!!!!!!!!!");
+        return urlDao;
 
-        if (cachedUrl != null) {
-            return cachedUrl;
-        } else {
-            UrlDao urlDao = findById(idUrlMapper.getId(shortUrl)).orElseThrow(() -> new ResourceNotFoundException("Url not found"));
-            ops.set(shortUrl, urlDao);
-            return urlDao;
-        }
     }
 
     @Override
     public void delete(UrlDao urlDao) throws ResourceNotFoundException {
-        deleteById(urlDao.getId());
+        deleteById(urlDao.getUserId());
     }
 
     @Override

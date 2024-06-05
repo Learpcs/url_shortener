@@ -1,31 +1,31 @@
 databaseChangeLog:
   - changeSet:
-      id: 1717559065365-9
+      id: 1717572589501-9
       author: liquibase (generated)
       changes:
         - sql:
             sql: INSERT INTO app_user (username, password, role) VALUES ('admin', 'admin', 'admin,premium,user');
   - changeSet:
-      id: 1717559065365-10
+      id: 1717572589501-10
       author: liquibase (generated)
       changes:
         - sql:
-            sql: INSERT INTO url (id, last_access_date, owner_id, redirect_count, url) VALUES (0, '2024-01-01 12:00:00', 1, 0, 'https://google.com');
+            sql: INSERT INTO url (url_id, last_access_date, user_id, redirect_count, long_url) VALUES (0, '2024-01-01 12:00:00', 1, 0, 'https://google.com');
   - changeSet:
-      id: 1717559065365-11
+      id: 1717572589501-11
       author: liquibase (generated)
       changes:
         - sql:
             sql: INSERT INTO app_user (username, password, role) VALUES ('user', 'user', 'user');
   - changeSet:
-      id: 1717559065365-12
+      id: 1717572589501-12
       author: liquibase (generated)
       changes:
         - sql:
             sql: INSERT INTO app_user (username, password, role) VALUES ('premium', 'premium', 'premium,user');
   - changeSet:
-      id: 1717559065365-13
+      id: 1717572589501-13
       author: liquibase (generated)
       changes:
         - sql:
-            sql: INSERT INTO url (id, last_access_date, owner_id, redirect_count, url) VALUES (1, '2024-01-01 12:00:00', 1, 0, 'https://youtube.com');
+            sql: INSERT INTO url (url_id, last_access_date, user_id, redirect_count, long_url) VALUES (1, '2024-01-01 12:00:00', 1, 0, 'https://youtube.com');

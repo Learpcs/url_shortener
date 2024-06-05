@@ -15,14 +15,17 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="app_user", indexes= {@Index(name = "idIndex", columnList="id", unique = true), @Index(name = "usernameIndex", columnList="username")})
+@Table(name="app_user", indexes= {@Index(name = "userIdIndex", columnList="userId", unique = true), @Index(name = "usernameIndex", columnList="username")})
 public class UserDao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    Long userId;
+
+    @Column(nullable = false, unique = true)
+    String username;
 
     @Column(nullable = false)
-    String username, password;
+    String password;
 
 
     @Column(nullable = false)

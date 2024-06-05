@@ -34,10 +34,4 @@ public class UserController {
     public void createAdmin(@RequestBody UserDto userDto) throws ResourceExistsException, AuthentificationException {
         userService.createAdmin(userDto);
     }
-
-    @GetMapping("/getAllLinks")
-    @PreAuthorize("hasRole('USER')")
-    public List<UrlDao> getAllLinks() {
-        return userService.getAllLinks();
-    }
 }

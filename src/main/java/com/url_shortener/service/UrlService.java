@@ -17,6 +17,8 @@ public interface UrlService {
     void deleteById(Long id) throws ResourceNotFoundException;
 
     UrlDao findByShortUrl(String shortUrl) throws ConverterException, ResourceNotFoundException;
+
+
     Optional<UrlDao> findById(Long id);
 
     String create(RandomUrlDto randomUrlDto) throws DatabaseException, ConverterException;
@@ -24,4 +26,6 @@ public interface UrlService {
 
     UrlDao getInfo(String shortUrl) throws ConverterException, ResourceNotFoundException;
     List<UrlDao> getAllLinks();
+
+    void deleteUrlsOlderThanXMinutes(Long X);
 }

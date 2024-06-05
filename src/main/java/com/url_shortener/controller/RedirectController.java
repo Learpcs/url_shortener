@@ -21,14 +21,14 @@ public class RedirectController {
     @GetMapping("/api/v1/redirect")
     public RedirectView redirect_requestparams(@RequestParam String url) throws ConverterException, UrlNotFoundException, ResourceNotFoundException {
         return new RedirectView(
-                urlService.findByShortUrl(url).getUrl()
+                urlService.findByShortUrl(url).getLongUrl()
         );
     }
 
     @GetMapping("/{link:^[a-zA-Z0-9]{5}$}")
     public RedirectView redirect(@PathVariable("link") String url) throws ConverterException, UrlNotFoundException, ResourceNotFoundException {
         RedirectView rv = new RedirectView(
-                urlService.findByShortUrl(url).getUrl()
+                urlService.findByShortUrl(url).getLongUrl()
         );
         rv.setStatusCode(HttpStatus.TEMPORARY_REDIRECT);
         return rv;

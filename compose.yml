@@ -20,8 +20,9 @@ services:
     image: liquibase/liquibase
     volumes:
       - ./src/main/resources/db/changelog:/changelog
-#    command: --changeLogFile=/changelog/changelog.yml --url=jdbc:postgresql://db:${DB_PORT}/${DB_NAME} --username=${DB_USER} --password=${DB_PASS} ${LB_COMMAND}
-    command: tail -f /dev/null
+    command: --changeLogFile=/changelog/changelog.yml --url=jdbc:postgresql://db:${DB_PORT}/${DB_NAME} --username=${DB_USER} --password=${DB_PASS} ${LB_COMMAND}
+#    command: tail -f /dev/null
+
 
     depends_on:
       - db

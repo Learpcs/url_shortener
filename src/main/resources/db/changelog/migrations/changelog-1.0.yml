@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1717559065365-1
+      id: 1717580986815-1
       author: liquibase (generated)
       changes:
         - createTable:
@@ -11,7 +11,7 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
                     primaryKeyName: app_user_pkey
-                  name: id
+                  name: user_id
                   type: BIGINT
               - column:
                   constraints:
@@ -30,26 +30,14 @@ databaseChangeLog:
                   type: VARCHAR(255)
             tableName: app_user
   - changeSet:
-      id: 1717559065365-2
+      id: 1717580986815-2
       author: liquibase (generated)
       changes:
         - createTable:
             columns:
               - column:
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: url_pkey
-                  name: id
-                  type: BIGINT
-              - column:
                   name: last_access_date
                   type: TIMESTAMP WITHOUT TIME ZONE
-              - column:
-                  constraints:
-                    nullable: false
-                  name: owner_id
-                  type: BIGINT
               - column:
                   constraints:
                     nullable: false
@@ -58,11 +46,23 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                  name: url
+                    primaryKey: true
+                    primaryKeyName: url_pkey
+                  name: url_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: long_url
                   type: VARCHAR(255)
             tableName: url
   - changeSet:
-      id: 1717559065365-3
+      id: 1717580986815-3
       author: liquibase (generated)
       changes:
         - createTable:
@@ -70,16 +70,16 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                  name: urls_id
+                  name: urls_url_id
                   type: BIGINT
               - column:
                   constraints:
                     nullable: false
-                  name: user_dao_id
+                  name: user_dao_user_id
                   type: BIGINT
             tableName: app_user_urls
   - changeSet:
-      id: 1717559065365-4
+      id: 1717580986815-4
       author: liquibase (generated)
       changes:
         - createIndex:
@@ -89,51 +89,51 @@ databaseChangeLog:
             indexName: usernameindex
             tableName: app_user
   - changeSet:
-      id: 1717559065365-5
+      id: 1717580986815-5
       author: liquibase (generated)
       changes:
         - createIndex:
             columns:
               - column:
-                  name: owner_id
-            indexName: owneridindex
+                  name: user_id
+            indexName: useridindex
             tableName: url
   - changeSet:
-      id: 1717559065365-6
+      id: 1717580986815-6
       author: liquibase (generated)
       changes:
         - addUniqueConstraint:
-            columnNames: urls_id
-            constraintName: app_user_urls_urls_id_key
+            columnNames: urls_url_id
+            constraintName: app_user_urls_urls_url_id_key
             tableName: app_user_urls
   - changeSet:
-      id: 1717559065365-7
+      id: 1717580986815-7
       author: liquibase (generated)
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: urls_id
+            baseColumnNames: user_dao_user_id
             baseTableName: app_user_urls
-            constraintName: fkpr8wlms51o2tfck3yw577yk73
+            constraintName: fk81e92hdki1svpc5w9mhm0f65t
             deferrable: false
             initiallyDeferred: false
             onDelete: NO ACTION
             onUpdate: NO ACTION
-            referencedColumnNames: id
-            referencedTableName: url
+            referencedColumnNames: user_id
+            referencedTableName: app_user
             validate: true
   - changeSet:
-      id: 1717559065365-8
+      id: 1717580986815-8
       author: liquibase (generated)
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: user_dao_id
+            baseColumnNames: urls_url_id
             baseTableName: app_user_urls
-            constraintName: fksx3u4gsecnf7qjf5g7hbxiqfx
+            constraintName: fk8ojq25fmplrhj70d79656p58h
             deferrable: false
             initiallyDeferred: false
             onDelete: NO ACTION
             onUpdate: NO ACTION
-            referencedColumnNames: id
-            referencedTableName: app_user
+            referencedColumnNames: url_id
+            referencedTableName: url
             validate: true
 

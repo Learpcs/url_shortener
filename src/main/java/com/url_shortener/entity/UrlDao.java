@@ -1,5 +1,7 @@
 package com.url_shortener.entity;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.url_shortener.exception.DatabaseException;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,17 +14,17 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Table(name="url", indexes= {@Index(name = "idIndex", columnList="id", unique = true), @Index(name = "ownerIdIndex", columnList="ownerId")})
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
+@Table(name="url", indexes= {@Index(name = "urlIdIndex", columnList="urlId", unique = true), @Index(name = "userIdIndex", columnList="userId")})
 public class UrlDao {
     @Id
-    Long id;
+    Long urlId;
 
     @Column(nullable = false)
-    String url;
+    String longUrl;
 
     @Column(nullable = false)
-    Long ownerId;
+    Long userId;
 
     @Column(nullable = false)
     Long redirectCount = 0L;
@@ -30,14 +32,11 @@ public class UrlDao {
     @Column
     LocalDateTime lastAccessDate = LocalDateTime.now();
 
-    public UrlDao(Long id, String url, Long ownerId) throws DatabaseException {
-        this.id = id;
-        this.url = url;
-        this.ownerId = ownerId;
+    public UrlDao(Long urlId, String url, Long userId) throws DatabaseException {
+        this.urlId = urlId;
+        this.longUrl = url;
+        this.userId = userId;
         this.redirectCount = 0L;
         this.lastAccessDate = LocalDateTime.now();
-        if (this.ownerId == null) {
-            throw new DatabaseException("Owner id is null");
-        }
     }
 }

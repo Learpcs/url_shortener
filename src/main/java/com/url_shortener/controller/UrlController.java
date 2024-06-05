@@ -33,7 +33,7 @@ public class UrlController {
         return urlService.create(randomUrlDto);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/getAllLinks")
     public List<UrlDao> getAllLinks() throws DatabaseException, UrlValidationException, ConverterException {
         return urlService.getAllLinks();

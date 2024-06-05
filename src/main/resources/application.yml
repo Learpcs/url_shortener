@@ -40,9 +40,11 @@ spring:
 
     hibernate:
       ddl-auto: validate
+
   redis:
     host: localhost
     port: 6379
+
 
 server:
   port:
