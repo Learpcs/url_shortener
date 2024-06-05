@@ -5,6 +5,7 @@ import com.url_shortener.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         UserDao user = userRepository.findByUsername(username).orElseThrow();
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(user));
+        return new CustomUser(user.getUsername(), user.getPassword(), getAuthorities(user), user.getId());
     }
 
     private Set<GrantedAuthority> getAuthorities(UserDao userDao) {

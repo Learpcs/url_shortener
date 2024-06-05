@@ -1,6 +1,7 @@
 package com.url_shortener.controller;
 
 import com.url_shortener.config.app.ShortUrlConfig;
+import com.url_shortener.config.security.CustomUser;
 import com.url_shortener.exception.AuthentificationException;
 import com.url_shortener.exception.ConverterException;
 import com.url_shortener.repository.UrlRepository;
@@ -69,6 +70,11 @@ public class DebugController {
     @GetMapping("/authentification")
     public String authentification() {
         return SecurityContextHolder.getContext().getAuthentication().toString();
+    }
+
+    @GetMapping("/sessionId")
+    public Long sessionId() {
+        return ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserID();
     }
 
     @GetMapping("/crap")

@@ -2,6 +2,7 @@ package com.url_shortener.controller;
 
 import com.url_shortener.config.app.HostConfig;
 import com.url_shortener.exception.ConverterException;
+import com.url_shortener.exception.ResourceNotFoundException;
 import com.url_shortener.exception.UrlNotFoundException;
 import com.url_shortener.service.UrlService;
 import com.url_shortener.utils.Mappers.IdUrlMapper;
@@ -18,16 +19,16 @@ public class RedirectController {
     private final HostConfig hostConfig;
 
     @GetMapping("/api/v1/redirect")
-    public RedirectView redirect_requestparams(@RequestParam String url) throws ConverterException, UrlNotFoundException {
+    public RedirectView redirect_requestparams(@RequestParam String url) throws ConverterException, UrlNotFoundException, ResourceNotFoundException {
         return new RedirectView(
-                urlService.findByShortUrl(url).orElseThrow(() -> new UrlNotFoundException("Short url doesn't exist")).getUrl()
+                urlService.findByShortUrl(url).getUrl()
         );
     }
 
     @GetMapping("/{link:^[a-zA-Z0-9]{5}$}")
-    public RedirectView redirect(@PathVariable("link") String url) throws ConverterException, UrlNotFoundException {
+    public RedirectView redirect(@PathVariable("link") String url) throws ConverterException, UrlNotFoundException, ResourceNotFoundException {
         RedirectView rv = new RedirectView(
-                urlService.findByShortUrl(url).orElseThrow(() -> new UrlNotFoundException("Short url doesn't exist")).getUrl()
+                urlService.findByShortUrl(url).getUrl()
         );
         rv.setStatusCode(HttpStatus.TEMPORARY_REDIRECT);
         return rv;

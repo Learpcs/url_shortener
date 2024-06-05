@@ -25,12 +25,7 @@ dependencies {
 	implementation("org.liquibase:liquibase-core")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation("org.springframework.data:spring-data-redis")
-	// https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
 	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-
-	// https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jdk8
-	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
-
 
 	// https://mvnrepository.com/artifact/io.lettuce/lettuce-core
 	implementation("io.lettuce:lettuce-core:6.3.2.RELEASE")

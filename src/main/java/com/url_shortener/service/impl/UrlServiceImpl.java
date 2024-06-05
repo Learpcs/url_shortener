@@ -1,5 +1,6 @@
 package com.url_shortener.service.impl;
 
+import com.url_shortener.config.security.CustomUser;
 import com.url_shortener.controller.Dto.PickedUrlDto;
 import com.url_shortener.controller.Dto.RandomUrlDto;
 import com.url_shortener.exception.ConverterException;
@@ -15,9 +16,11 @@ import lombok.RequiredArgsConstructor;
 import org.bouncycastle.oer.its.etsi102941.Url;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,7 +37,7 @@ public class UrlServiceImpl implements UrlService {
             Long id = shortUrlRandomizer.randomId();
             if (findById(id).isEmpty()) {
                 UrlDao urlDao = new UrlDao();
-                urlRepository.save(new UrlDao(id, randomUrlDto.url(), 0L)); //FIXME OWNERID
+                urlRepository.save(new UrlDao(id, randomUrlDto.url(), ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserID())); //FIXME OWNERID
                 return idUrlMapper.getShortUrl(id);
             }
         }
@@ -47,7 +50,18 @@ public class UrlServiceImpl implements UrlService {
         if (urlRepository.findById(id).isPresent()) {
             throw new ResourceExistsException("Short url already exists");
         }
-        urlRepository.save(new UrlDao(id, pickedUrlDto.url(), 0L));
+
+        urlRepository.save(new UrlDao(id, pickedUrlDto.url(), ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserID()));
+    }
+
+    @Override
+    public UrlDao getInfo(String shortUrl) throws ConverterException, ResourceNotFoundException {
+        return findByShortUrl(shortUrl);
+    }
+
+    @Override
+    public List<UrlDao> getAllLinks() {
+        return urlRepository.findAll();
     }
 
 
@@ -59,16 +73,16 @@ public class UrlServiceImpl implements UrlService {
     @Autowired
     private RedisTemplate<String, UrlDao> redisTemplate;
 
-    public Optional<UrlDao> findByShortUrl(String shortUrl) throws ConverterException {
+    public UrlDao findByShortUrl(String shortUrl) throws ConverterException, ResourceNotFoundException {
         ValueOperations<String, UrlDao> ops = redisTemplate.opsForValue();
         UrlDao cachedUrl = ops.get(shortUrl);
 
         if (cachedUrl != null) {
-            return Optional.of(cachedUrl);
+            return cachedUrl;
         } else {
-            UrlDao urlDao = findById(idUrlMapper.getId(shortUrl)).get();
+            UrlDao urlDao = findById(idUrlMapper.getId(shortUrl)).orElseThrow(() -> new ResourceNotFoundException("Url not found"));
             ops.set(shortUrl, urlDao);
-            return Optional.of(urlDao);
+            return urlDao;
         }
     }
 

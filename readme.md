@@ -12,3 +12,4 @@
 12. норм найстрока ориджинов в секурити
 13. много ролей запихнуть надо бы и пофиксить в UserDetailsServiceImpl
 14. балансировщик нагрузки ??
+15. https://stackoverflow.com/questions/76153735/how-to-display-required-user-roles-in-for-openapi-ui
