@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1717559065365-9
+      author: liquibase (generated)
+      changes:
+        - sql:
+            sql: INSERT INTO app_user (id, username, password, role) VALUES (1, 'john_doe', 'password123', 'admin');
+  - changeSet:
+      id: 1717559065365-10
+      author: liquibase (generated)
+      changes:
+        - sql:
+            sql: INSERT INTO url (id, last_access_date, owner_id, redirect_count, url) VALUES (0, '2024-01-01 12:00:00', 1, 0, 'https://google.com');
