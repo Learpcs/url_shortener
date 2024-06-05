@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-//	implementation("org.liquibase:liquibase-core:4.27.0")
+	implementation("org.liquibase:liquibase-core")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation("org.springframework.data:spring-data-redis")
 	// https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310

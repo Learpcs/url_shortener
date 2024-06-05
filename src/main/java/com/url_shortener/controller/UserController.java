@@ -21,13 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/create")
-    public void create(@RequestBody UserDto userDto) throws DatabaseException, UrlValidationException, ConverterException, ResourceExistsException, AuthentificationException {
+    public void create(@RequestBody UserDto userDto) throws ResourceExistsException, AuthentificationException {
         userService.create(userDto);
-    }
-
-
-    @PostMapping("/auth")
-    public void auth(@RequestBody UserDto userDto) throws DatabaseException, UrlValidationException, ConverterException, AuthentificationException {
-        userService.auth(userDto);
     }
 }

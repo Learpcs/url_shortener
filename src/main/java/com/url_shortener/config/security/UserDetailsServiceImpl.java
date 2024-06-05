@@ -25,7 +25,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private Set<GrantedAuthority> getAuthorities(UserDao userDao) {
         Set<GrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + userDao.getRole().toUpperCase()));
+        String[] roles = userDao.getRole().split(",");
+        for (String role : roles) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.trim().toUpperCase()));
+        }
         return authorities;
     }
 }

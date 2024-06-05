@@ -6,27 +6,31 @@ spring:
   application:
     name: url_shortener
   security:
-    oauth2:
-      client:
-        registration:
-          my-oauth2-client:
-            provider: keycloak
-            client-id: url_shortener
-            client-secret: tYhss3CmeFqDuoR76croI19LJ4HgUmBT
-            authorization-grant-type: authorization_code
-            scope: openid, profile
+#    oauth2:
+#      client:
+#        registration:
+#          my-oauth2-client:
+#            provider: keycloak
+#            client-id: url_shortener
+#            client-secret: tYhss3CmeFqDuoR76croI19LJ4HgUmBT
+#            authorization-grant-type: authorization_code
+#            scope: openid, profile
 #            redirect-uri: http://localhost:8888/home
-        provider:
-          keycloak:
-            issuer-uri: http://localhost:8080/realms/url_shortener
+#        provider:
+#          keycloak:
+#            issuer-uri: http://localhost:8080/realms/url_shortener
   datasource:
     url: jdbc:postgresql://localhost:5432/mydatabase
     username: myuser
     password: mypass
+
   liquibase:
-    enabled: true
-    # Не увидел где лежат миграции
-    change-log: classpath:db/changelog/changelog-master.yaml
+    enabled: false
+    change-log: classpath:db/changelog/changelog-master.yml
+    url: jdbc:postgresql://localhost:5432/mydatabase
+    user: myuser
+    password: mypass
+
   jpa:
     #Debug
     show-sql: true
@@ -35,7 +39,7 @@ spring:
         format_sql: true
 
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto:
   redis:
     host: localhost
     port: 6379

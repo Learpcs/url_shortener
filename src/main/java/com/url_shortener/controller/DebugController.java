@@ -48,18 +48,27 @@ public class DebugController {
     }
 
 
-    @GetMapping("/secureMethod")
-    @PreAuthorize("hasRole('manage-account')")
-    public String secureMethod1() {
-        return "This method is secured for users with role 'user'";
+    @GetMapping("/secureMethodUser")
+    @PreAuthorize("hasRole('USER')")
+    public String secureMethodUser() {
+        return "This method is secured for users with role 'USER'";
     }
 
-    @GetMapping("/hello")
-    public String authorities()
-    {
-        Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)    SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+    @GetMapping("/secureMethodPremium")
+    @PreAuthorize("hasRole('PREMIUM')")
+    public String secureMethodPremium() {
+        return "This method is secured for users with role 'PREMIUM'";
+    }
 
-        return authorities.toString() + " " + SecurityContextHolder.getContext().getAuthentication();
+    @GetMapping("/secureMethodAdmin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String secureMethodAdmin() {
+        return "This method is secured for users with role 'ADMIN'";
+    }
+
+    @GetMapping("/authentification")
+    public String authentification() {
+        return SecurityContextHolder.getContext().getAuthentication().toString();
     }
 
     @GetMapping("/crap")

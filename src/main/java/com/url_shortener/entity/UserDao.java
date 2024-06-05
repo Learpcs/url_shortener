@@ -15,7 +15,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-//@Table(name="url", indexes= {@Index(name = "idindex", columnList="id", unique = true), @Index(name = "urlindex", columnList="url")})
+@Table(name="app_user", indexes= {@Index(name = "idIndex", columnList="id", unique = true), @Index(name = "usernameIndex", columnList="username")})
 public class UserDao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

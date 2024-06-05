@@ -13,9 +13,8 @@ import com.url_shortener.utils.ShortUrlRandomizer;
 import com.url_shortener.utils.Validity.UrlFixer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-//TODO Service, URLVALIDATION, TESTS
 
 @RestController
 @RequestMapping("/api/v1/url")
@@ -24,12 +23,13 @@ public class UrlController {
 
     private final UrlService urlService;
 
-    //TODO authorized
+    @PreAuthorize("hasRole('PREMIUM')")
     @PostMapping("/createPicked")
     public void createPicked(@RequestBody PickedUrlDto pickedUrlDto) throws DatabaseException, UrlValidationException, ConverterException, ResourceExistsException {
         urlService.create(pickedUrlDto);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/createRandom")
     public String createRandom(@RequestBody RandomUrlDto randomUrlDto) throws DatabaseException, UrlValidationException, ConverterException {
         return urlService.create(randomUrlDto);

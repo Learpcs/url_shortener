@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@Table(name="user", indexes= {@Index(name = "idindex", columnList="id", unique = true), @Index(name = "urlindex", columnList="url")})
+@Table(name="url", indexes= {@Index(name = "idIndex", columnList="id", unique = true), @Index(name = "ownerIdIndex", columnList="ownerId")})
 public class UrlDao {
     @Id
     Long id;
