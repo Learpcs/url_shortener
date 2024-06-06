@@ -16,7 +16,7 @@ public class DatabaseClearService {
     private final UrlService urlService;
 
     @Scheduled(cron = "0 0 0 * * 0")
-    public void clearRedisData() {
+    public void databaseClear() {
         urlService.deleteUrlsOlderThanXMinutes(60L * 24L * 30);
         log.info("Url data cleared at: {}", new Date());
     }

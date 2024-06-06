@@ -5,6 +5,8 @@ import com.url_shortener.config.security.CustomUser;
 import com.url_shortener.config.security.WebSecurityConfig;
 import com.url_shortener.entity.UrlDao;
 import com.url_shortener.exception.ConverterException;
+import com.url_shortener.kafka.KafkaProducerService;
+import com.url_shortener.kafka.RedirectDto;
 import com.url_shortener.repository.UrlRepository;
 import com.url_shortener.utils.Mappers.IdUrlMapper;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ public class DebugController {
     private final ShortUrlConfig shortUrlConfig;
     private final IdUrlMapper idUrlMapper;
     private final WebSecurityConfig webSecurityConfig;
+    private final KafkaProducerService kafkaProducerService;
 
     @GetMapping("/{link}")
     void redirect(@PathVariable("link") final String url) throws ConverterException {
@@ -80,6 +83,11 @@ public class DebugController {
     @GetMapping("/getAllLinks")
     public List<UrlDao> getAllLinks() {
         return urlRepository.findAll();
+    }
+
+    @GetMapping("/kafka")
+    public void kafka() {
+        kafkaProducerService.sendRequest(new RedirectDto(0L));
     }
 
     @GetMapping("/crap")
