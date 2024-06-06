@@ -2,18 +2,16 @@ package com.url_shortener.service;
 
 import com.url_shortener.controller.Dto.PickedUrlDto;
 import com.url_shortener.controller.Dto.RandomUrlDto;
+import com.url_shortener.controller.Dto.ShortUrlDto;
 import com.url_shortener.entity.UrlDao;
-import com.url_shortener.exception.ConverterException;
-import com.url_shortener.exception.DatabaseException;
-import com.url_shortener.exception.ResourceExistsException;
-import com.url_shortener.exception.ResourceNotFoundException;
+import com.url_shortener.exception.*;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UrlService {
 
-    void delete(UrlDao urlDao) throws ResourceNotFoundException;
+    void delete(ShortUrlDto shortUrlDto) throws ResourceNotFoundException, ConverterException, AuthorizationException;
     void deleteById(Long id) throws ResourceNotFoundException;
 
     UrlDao findByShortUrl(String shortUrl) throws ConverterException, ResourceNotFoundException;
@@ -21,11 +19,12 @@ public interface UrlService {
 
     Optional<UrlDao> findById(Long id);
 
-    String create(RandomUrlDto randomUrlDto) throws DatabaseException, ConverterException;
-    void create(PickedUrlDto pickedUrlDto) throws DatabaseException, ConverterException, ResourceExistsException;
+    String create(RandomUrlDto randomUrlDto) throws DatabaseException, ConverterException, ResourceValidationException;
+    void create(PickedUrlDto pickedUrlDto) throws DatabaseException, ConverterException, ResourceExistsException, ResourceValidationException;
 
-    UrlDao getInfo(String shortUrl) throws ConverterException, ResourceNotFoundException;
     List<UrlDao> getAllLinks();
 
     void deleteUrlsOlderThanXMinutes(Long X);
+
+    UrlDao info(ShortUrlDto shortUrlDto) throws ConverterException, ResourceNotFoundException;
 }

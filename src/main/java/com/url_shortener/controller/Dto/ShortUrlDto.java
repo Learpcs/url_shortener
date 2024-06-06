@@ -1,5 +1,5 @@
 package com.url_shortener.controller.Dto;
 
-public record RandomUrlDto(String longUrl) {
+public record ShortUrlDto(String shortUrl) {
 
 }

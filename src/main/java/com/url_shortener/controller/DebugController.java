@@ -2,45 +2,39 @@ package com.url_shortener.controller;
 
 import com.url_shortener.config.app.ShortUrlConfig;
 import com.url_shortener.config.security.CustomUser;
+import com.url_shortener.config.security.WebSecurityConfig;
 import com.url_shortener.entity.UrlDao;
-import com.url_shortener.exception.AuthentificationException;
 import com.url_shortener.exception.ConverterException;
 import com.url_shortener.repository.UrlRepository;
-import com.url_shortener.repository.UserRepository;
 import com.url_shortener.utils.Mappers.IdUrlMapper;
-//import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/debug")
 @RequiredArgsConstructor
+@SuppressWarnings("unused")
 public class DebugController {
 
-    private final UserRepository userRepository;
     private final UrlRepository urlRepository;
     private final ShortUrlConfig shortUrlConfig;
     private final IdUrlMapper idUrlMapper;
-
-
-
-    @GetMapping("/auth")
-    void auth(@RequestParam String login, @RequestParam String password) throws AuthentificationException {
-        System.out.println(userRepository.auth(login,  password).orElseThrow(() -> new AuthentificationException("wrong credidentials")));
-    }
+    private final WebSecurityConfig webSecurityConfig;
 
     @GetMapping("/{link}")
-    void redirect(@PathVariable("link") String url) throws AuthentificationException, ConverterException {
-        System.out.println(urlRepository.findById(idUrlMapper.getId(url)));
-        System.out.println(urlRepository.findById(idUrlMapper.getId(url)).get().getLongUrl());
+    void redirect(@PathVariable("link") final String url) throws ConverterException {
+        System.out.println(urlRepository.findById(idUrlMapper.map(url)));
+        System.out.println(urlRepository.findById(idUrlMapper.map(url)).orElseThrow().getLongUrl());
     }
 
-//    @Operation(summary = "Get a greeting message")
     @GetMapping("/hello1")
     public ResponseEntity<String> getGreeting() {
 
@@ -48,6 +42,12 @@ public class DebugController {
         return ResponseEntity.ok("Hello, World!");
     }
 
+    @GetMapping("/getPasswords")
+    public String getPasswords() {
+        return webSecurityConfig.passwordEncoder().encode("user")
+                + "\n" + webSecurityConfig.passwordEncoder().encode("premium")
+                + "\n" + webSecurityConfig.passwordEncoder().encode("admin");
+    }
 
     @GetMapping("/secureMethodUser")
     @PreAuthorize("hasRole('USER')")
@@ -67,8 +67,8 @@ public class DebugController {
         return "This method is secured for users with role 'ADMIN'";
     }
 
-    @GetMapping("/authentification")
-    public String authentification() {
+    @GetMapping("/authentication")
+    public String authentication() {
         return SecurityContextHolder.getContext().getAuthentication().toString();
     }
 

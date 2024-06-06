@@ -66,14 +66,10 @@ settings:
     SIZE_LOWER_BOUND: 3
     SIZE_UPPER_BOUND: 2048
 
-  LoginConfig:
+  UsernameConfig:
     SIZE_LOWER_BOUND: 1
     SIZE_UPPER_BOUND: 36
 
   PasswordConfig:
-    SIZE_LOWER_BOUND: 8
-    SIZE_UPPER_BOUND: 254
-
-  EmailConfig:
-    SIZE_LOWER_BOUND: 1
+    SIZE_LOWER_BOUND: 4
     SIZE_UPPER_BOUND: 254

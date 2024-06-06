@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @StandardException
-@ResponseStatus(value = HttpStatus.CONFLICT)
+@ResponseStatus(HttpStatus.CONFLICT)
 public class ResourceExistsException extends Exception {
 }

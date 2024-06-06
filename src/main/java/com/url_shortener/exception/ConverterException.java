@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @StandardException
-@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 public class ConverterException extends Exception {
 
 }

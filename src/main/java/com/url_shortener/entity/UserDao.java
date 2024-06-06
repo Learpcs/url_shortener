@@ -1,20 +1,12 @@
 package com.url_shortener.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
+import lombok.Data;
 
 import java.util.List;
-import java.util.Set;
 
+@Data
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name="app_user", indexes= {@Index(name = "userIdIndex", columnList="userId", unique = true), @Index(name = "usernameIndex", columnList="username")})
 public class UserDao {
     @Id

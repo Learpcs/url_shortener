@@ -7,17 +7,17 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
+@SuppressWarnings("unused")
 public class DatabaseClearService {
     private final UrlService urlService;
 
     @Scheduled(cron = "0 0 0 * * 0")
     public void clearRedisData() {
         urlService.deleteUrlsOlderThanXMinutes(60L * 24L * 30);
-        log.info("Url data cleared at: " + new Date());
+        log.info("Url data cleared at: {}", new Date());
     }
 }

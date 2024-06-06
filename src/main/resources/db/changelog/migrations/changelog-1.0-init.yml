@@ -4,7 +4,7 @@ databaseChangeLog:
       author: liquibase (generated)
       changes:
         - sql:
-            sql: INSERT INTO app_user (username, password, role) VALUES ('admin', 'admin', 'admin,premium,user');
+            sql: INSERT INTO app_user (username, password, role) VALUES ('admin', '$2a$10$pNTs6iZuB43ArDeKQodlPOnnEhnsojrEHXEY33l25mIdawcTTL3xu', 'admin,premium,user');
   - changeSet:
       id: 1717572589501-10
       author: liquibase (generated)
@@ -16,13 +16,13 @@ databaseChangeLog:
       author: liquibase (generated)
       changes:
         - sql:
-            sql: INSERT INTO app_user (username, password, role) VALUES ('user', 'user', 'user');
+            sql: INSERT INTO app_user (username, password, role) VALUES ('user', '$2a$10$pErKNHe7OhPiNtJQ2ULMK.0WhIb8.e8SW3Slna.ILOkKgMFTn39Z.', 'user');
   - changeSet:
       id: 1717572589501-12
       author: liquibase (generated)
       changes:
         - sql:
-            sql: INSERT INTO app_user (username, password, role) VALUES ('premium', 'premium', 'premium,user');
+            sql: INSERT INTO app_user (username, password, role) VALUES ('premium', '$2a$10$HaoMRVgG.lbKOvOtXbM3d.7jzrmv7DffHKpe1q/c9Ny/niDg/eFnK', 'premium,user');
   - changeSet:
       id: 1717572589501-13
       author: liquibase (generated)

@@ -4,8 +4,8 @@ import lombok.experimental.StandardException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
+@ResponseStatus(HttpStatus.BAD_REQUEST)
 @StandardException
-public class UrlNotFoundException extends Exception {
+public class ResourceValidationException extends Exception {
 
 }

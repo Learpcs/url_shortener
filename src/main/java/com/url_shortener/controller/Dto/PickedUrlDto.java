@@ -1,5 +1,5 @@
 package com.url_shortener.controller.Dto;
 
-public record PickedUrlDto(String url, String shortUrl) {
+public record PickedUrlDto(String longUrl, String shortUrl) {
 
 }

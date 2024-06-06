@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @StandardException
-@ResponseStatus(value = HttpStatus.METHOD_NOT_ALLOWED)
-public class AuthorizationException extends Exception {
+@ResponseStatus(HttpStatus.CONFLICT)
+public class AuthorizationException extends  Exception{
 
 }
