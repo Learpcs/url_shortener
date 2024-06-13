@@ -13,3 +13,4 @@
 13. много ролей запихнуть надо бы и пофиксить в UserDetailsServiceImpl
 14. балансировщик нагрузки ??
 15. https://stackoverflow.com/questions/76153735/how-to-display-required-user-roles-in-for-openapi-ui
+16. redirect count is still implemented poorly, it should like make kafka request to increment redirect count and then refer to cache. 

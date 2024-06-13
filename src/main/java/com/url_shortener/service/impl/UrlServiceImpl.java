@@ -6,6 +6,7 @@ import com.url_shortener.controller.Dto.RandomUrlDto;
 import com.url_shortener.controller.Dto.ShortUrlDto;
 import com.url_shortener.entity.UrlDao;
 import com.url_shortener.exception.*;
+import com.url_shortener.kafka.KafkaProducerService;
 import com.url_shortener.repository.UrlRepository;
 import com.url_shortener.service.UrlService;
 import com.url_shortener.utils.Mappers.DaoMapper;
@@ -13,6 +14,7 @@ import com.url_shortener.utils.Mappers.IdUrlMapper;
 import com.url_shortener.utils.ShortUrlRandomizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -69,14 +71,16 @@ public class UrlServiceImpl implements UrlService {
     }
 
 
+    private final KafkaProducerService kafkaProducerService;
 
+
+    //FIXME apparently I need to use cacheManager here, to avoid CachePut
     @Override
-    @Cacheable(cacheNames = "url")
+    @CachePut(cacheNames = "url")
     public UrlDao findByShortUrl(final String shortUrl) throws ConverterException, ResourceNotFoundException {
         final Long id = idUrlMapper.map(shortUrl);
         final UrlDao urlDao = findById(id).orElseThrow(() -> new ResourceNotFoundException("ShortUrl not found"));
-        urlRepository.updateUrlAccess(id);
-        log.debug("Redirect from database");
+        kafkaProducerService.sendRequest(id.toString());
         return urlDao;
     }
 

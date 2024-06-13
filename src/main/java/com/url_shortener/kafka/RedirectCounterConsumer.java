@@ -14,12 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Slf4j
 public class RedirectCounterConsumer {
-    @Autowired
     private final UrlRepository urlRepository;
 
-    @KafkaListener(topics = "redirect", groupId = "url_shortener", containerFactory = "kafkaListenerContainerFactory")
-    public void listener(@Payload final RedirectDto redirectDto) {
-        log.debug("GOT IT YAY!");
-        urlRepository.updateUrlAccess(redirectDto.id());
+    @KafkaListener(topics = "redirect")
+    public void listener(Long id) {
+        log.debug("GOT IT YAY! {}", id);
+        urlRepository.updateUrlAccess(id);
     }
 }

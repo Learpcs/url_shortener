@@ -6,10 +6,10 @@ import com.url_shortener.config.security.WebSecurityConfig;
 import com.url_shortener.entity.UrlDao;
 import com.url_shortener.exception.ConverterException;
 import com.url_shortener.kafka.KafkaProducerService;
-import com.url_shortener.kafka.RedirectDto;
 import com.url_shortener.repository.UrlRepository;
 import com.url_shortener.utils.Mappers.IdUrlMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -87,7 +88,7 @@ public class DebugController {
 
     @GetMapping("/kafka")
     public void kafka() {
-        kafkaProducerService.sendRequest(new RedirectDto(0L));
+        kafkaProducerService.sendRequest("0");
     }
 
     @GetMapping("/crap")
@@ -95,5 +96,13 @@ public class DebugController {
     {
         System.out.println(shortUrlConfig.SIZE);
         System.out.println(shortUrlConfig.SIZE_UPPER_BOUND);
+    }
+
+    private final CacheManager cacheManager;
+
+    @GetMapping("/cacheNames")
+    public Collection<String> cacheNames()
+    {
+        return cacheManager.getCacheNames();
     }
 }

@@ -10,10 +10,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Slf4j
 public class KafkaProducerService {
-    private final KafkaTemplate<String, RedirectDto> kafkaTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public void sendRequest(final RedirectDto redirectDto) {
-        kafkaTemplate.send("redirect", redirectDto);
-        log.debug("SENT REDIRECT");
+    public void sendRequest(final String id) {
+        log.debug("SENDING REDIRECT: {}", id);
+        kafkaTemplate.send("redirect", id);
+        log.debug("SENT REDIRECT: {}", id);
     }
 }
